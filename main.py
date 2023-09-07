@@ -12,7 +12,7 @@ class EmptyLinkedBrailleSymbol:
     def isShiftModeSymbol(self) -> bool:
         return False
     @property
-    def isBracketsSymbol(self) -> bool:
+    def isNumberSymbol(self) -> bool:
         return False
     
     def setSideBrailleSymbols(self, left: LinkedBrailleSymbol | None, right: LinkedBrailleSymbol | None) -> EmptyLinkedBrailleSymbol:
@@ -41,6 +41,12 @@ class EmptyLinkedBrailleSymbol:
     @property
     def hasShiftMode(self) -> bool:
         return self.last.isShiftModeSymbol if self.last else False
+    @property
+    def hasLeftNumber(self) -> bool:
+        return False
+    @property
+    def hasRightNumber(self) -> bool:
+        return False
 
 
 class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
@@ -52,13 +58,16 @@ class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
         return self.text_sym == '⠀' or self.text_sym.isspace()
     @property
     def isNumericModeSymbol(self) -> bool:
-        return self.text_sym == '⠼' and self.hasOnlyLeftSpace  # TODO: needs upgrading
+        return self.text_sym == '⠼' and self.hasOnlyLeftSpace and self.hasRightNumber  # TODO: needs upgrading
     @property
     def isNotNumericModeSymbol(self) -> bool:
         return self.text_sym == '⠰'
     @property
     def isShiftModeSymbol(self) -> bool:
         return self.text_sym == '⠠'
+    @property
+    def isNumberSymbol(self) -> bool:
+        return self.text_sym in ('⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚')
     
     def setSideBrailleSymbols(self, left: LinkedBrailleSymbol | None, right: LinkedBrailleSymbol | None) -> LinkedBrailleSymbol:
         self.last = left or EmptyLinkedBrailleSymbol().setSideBrailleSymbols(None, self)
@@ -86,6 +95,12 @@ class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
     @property
     def hasShiftMode(self) -> bool:
         return self.last.isShiftModeSymbol
+    @property
+    def hasLeftNumber(self) -> bool:
+        return self.last.isNumberSymbol
+    @property
+    def hasRightNumber(self) -> bool:
+        return self.next.isNumberSymbol
     
     def getSymbol(self) -> str:
         try:
@@ -142,7 +157,7 @@ class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
                 '⠴': lambda: '»' if self.hasOnlyRightSpace else 'was',
                 '⠌': lambda: '/' if self.betweenSpaces else 'st',  # TODO: needs upgrading
                 '⠬': lambda: 'ing',
-                '⠼': lambda: '' if self.hasOnlyLeftSpace else 'ble',  # TODO: needs upgrading
+                '⠼': lambda: '' if self.hasOnlyLeftSpace and self.hasRightNumber else '#' if self.betweenSpaces else 'ble',  # TODO: needs upgrading
                 '⠜': lambda: 'ar',
                 '⠄': lambda: '\'',
                 '⠤': lambda: '-' if self.betweenSpaces else 'com',  # TODO: needs upgrading
@@ -150,7 +165,7 @@ class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
                 '⠘': lambda: '',
                 '⠸': lambda: '',
                 '⠐': lambda: '',
-                '⠨': lambda: '',
+                '⠨': lambda: ',' if self.hasLeftNumber and self.hasRightNumber and self.hasNumericMode else '`',
                 '⠰': lambda: '',
                 '⠠': lambda: '',
             }[self.text_sym]()
