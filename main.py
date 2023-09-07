@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 
+ALL_WORDS = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'but', 'can', 'do', 'every', 'from', 'go', 'have', 'just', 'knowledge', 'like', 'more', 'not', 'people', 'quite', 'rather', 'so', 'that', 'us', 'very', 'it', 'you', 'as', 'and', 'for', 'of', 'the', 'with', 'ch', 'gh', 'sh', 'th', 'wh', 'ed', 'er', 'ou', 'ow', 'will', 'ea', 'bb', 'cc', 'dis', 'en', 'to', 'gg', 'his', 'in', 'was', 'st', 'ing', 'ble', 'ar', 'com', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', ';', ':', '.', '!', '(', ')', '«', '»', '/', '#', '\'', '-']
+
+
 class EmptyLinkedBrailleSymbol:
     @property
     def isSpaceSymbol(self) -> bool:
@@ -145,13 +148,13 @@ class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
                 '⠳': lambda: 'ou',
                 '⠪': lambda: 'ow',
                 '⠺': lambda: 'W' if self.hasShiftMode else 'will' if self.betweenSpaces else 'w',
-                '⠂': lambda: ',' if self.hasOnlyRightSpace else 'ea',
-                '⠆': lambda: ';' if self.hasOnlyRightSpace else 'bb',
-                '⠒': lambda: ':' if self.hasOnlyRightSpace else 'cc',
-                '⠲': lambda: '.' if self.hasOnlyRightSpace else 'dis',
+                '⠂': lambda: ',' if self.hasRightSpace else 'ea',
+                '⠆': lambda: ';' if self.hasRightSpace else 'bb',
+                '⠒': lambda: ':' if self.hasRightSpace else 'cc',
+                '⠲': lambda: '.' if self.hasRightSpace else 'dis',
                 '⠢': lambda: 'en',
-                '⠖': lambda: '!' if self.hasOnlyRightSpace else 'to',
-                '⠶': lambda: '(' if self.hasOnlyLeftSpace else ')' if self.hasOnlyRightSpace else 'gg',
+                '⠖': lambda: '!' if self.hasOnlyRightSpace else 'to',  # TODO: needs upgrading
+                '⠶': lambda: '(' if self.hasLeftSpace else ')' if self.hasRightSpace else 'gg',  # TODO: needs upgrading
                 '⠦': lambda: '«' if self.hasOnlyLeftSpace else 'his',
                 '⠔': lambda: 'in',
                 '⠴': lambda: '»' if self.hasOnlyRightSpace else 'was',
@@ -173,6 +176,237 @@ class LinkedBrailleSymbol(EmptyLinkedBrailleSymbol):
             return self.text_sym
 
 
+class EmptyLinkedLatinWord:
+    @property
+    def isSpaceSymbol(self) -> bool:
+        return True
+    @property
+    def isNumberSymbol(self) -> bool:
+        return False
+    @property
+    def isDotNumberSymbol(self) -> bool:
+        return False
+    
+    def setSideLatinWords(self, left: LinkedLatinWord | None, right: str | None) -> EmptyLinkedLatinWord:
+        self.last = left
+        self.next = right
+        return self
+    
+    @property
+    def betweenSpaces(self) -> bool:
+        return self.last.isSpaceSymbol if self.last else self.next.isSpaceSymbol
+    @property
+    def hasLeftSpace(self) -> bool:
+        return self.last.isSpaceSymbol if self.last else True
+    @property
+    def hasRightSpace(self) -> bool:
+        return self.next.isSpaceSymbol if self.next else True
+    @property
+    def hasOnlyLeftSpace(self) -> bool:
+        return self.hasLeftSpace and not self.hasRightSpace
+    @property
+    def hasOnlyRightSpace(self) -> bool:
+        return not self.hasLeftSpace and self.hasRightSpace
+    @property
+    def hasLeftNumber(self) -> bool:
+        return False
+    @property
+    def hasRightNumber(self) -> bool:
+        return False
+    @property
+    def hasLeftDotNumber(self) -> bool:
+        return False
+    @property
+    def hasRightDotNumber(self) -> bool:
+        return False
+
+
+class LinkedLatinWord(EmptyLinkedLatinWord):
+    def __init__(self, text_word: str, shorten_syllables: bool = True, shorten_words: bool = True, autocorrect: bool = True):
+        self.__ac = autocorrect
+        self.__ss = shorten_syllables
+        self.__sw = shorten_words
+        self.word = text_word
+    
+    @property
+    def isSpaceSymbol(self) -> bool:
+        return self.word.isspace()
+    @property
+    def isNumberSymbol(self) -> bool:
+        return self.word in list('1234567890')
+    @property
+    def isDotNumberSymbol(self) -> bool:
+        return self.word in (',', '.') and self.last.isNumberSymbol and self.next.isNumberSymbol
+    
+    def setSideLatinWords(self, left: LinkedLatinWord | None, right: str | None) -> LinkedLatinWord:
+        self.last = left or EmptyLinkedLatinWord().setSideLatinWords(None, self)
+        self.next = LinkedLatinWord(right).setSideLatinWords(self, None) if right else EmptyLinkedLatinWord().setSideLatinWords(self, None)
+        return self
+    
+    @property
+    def betweenSpaces(self) -> bool:
+        return self.last.isSpaceSymbol and self.next.isSpaceSymbol
+    @property
+    def hasLeftSpace(self) -> bool:
+        return self.last.isSpaceSymbol
+    @property
+    def hasRightSpace(self) -> bool:
+        return self.next.isSpaceSymbol
+    @property
+    def hasOnlyLeftSpace(self) -> bool:
+        return self.last.isSpaceSymbol and not self.next.isSpaceSymbol
+    @property
+    def hasOnlyRightSpace(self) -> bool:
+        return not self.last.isSpaceSymbol and self.next.isSpaceSymbol
+    @property
+    def hasLeftNumber(self) -> bool:
+        return self.last.isNumberSymbol
+    @property
+    def hasRightNumber(self) -> bool:
+        return self.next.isNumberSymbol
+    @property
+    def hasLeftDotNumber(self) -> bool:
+        return self.last.isDotNumberSymbol
+    @property
+    def hasRightDotNumber(self) -> bool:
+        return self.next.isDotNumberSymbol
+    
+    def getBrailleSymbol(self) -> str | None:
+        try:
+            return {
+                'a': lambda: '⠁',
+                'c': lambda: '⠉',
+                'b': lambda: '⠃',
+                'd': lambda: '⠙',
+                'e': lambda: '⠑',
+                'f': lambda: '⠋',
+                'g': lambda: '⠛',
+                'h': lambda: '⠓',
+                'i': lambda: '⠊',
+                'j': lambda: '⠚',
+                'k': lambda: '⠅',
+                'l': lambda: '⠇',
+                'm': lambda: '⠍',
+                'n': lambda: '⠝',
+                'o': lambda: '⠕',
+                'p': lambda: '⠏',
+                'q': lambda: '⠟',
+                'r': lambda: '⠗',
+                's': lambda: '⠎',
+                't': lambda: '⠞',
+                'u': lambda: '⠥',
+                'v': lambda: '⠧',
+                'w': lambda: '⠺' if not self.betweenSpaces else None,
+                'x': lambda: '⠭',
+                'y': lambda: '⠽',
+                'z': lambda: '⠵',
+                'A': lambda: '⠠⠁',
+                'B': lambda: '⠠⠃',
+                'C': lambda: '⠠⠉',
+                'D': lambda: '⠠⠙',
+                'E': lambda: '⠠⠑',
+                'F': lambda: '⠠⠋',
+                'G': lambda: '⠠⠛',
+                'H': lambda: '⠠⠓',
+                'I': lambda: '⠠⠊',
+                'J': lambda: '⠠⠚',
+                'K': lambda: '⠠⠅',
+                'L': lambda: '⠠⠇',
+                'M': lambda: '⠠⠍',
+                'N': lambda: '⠠⠝',
+                'O': lambda: '⠠⠕',
+                'P': lambda: '⠠⠏',
+                'Q': lambda: '⠠⠟',
+                'R': lambda: '⠠⠗',
+                'S': lambda: '⠠⠎',
+                'T': lambda: '⠠⠞',
+                'U': lambda: '⠠⠥',
+                'V': lambda: '⠠⠧',
+                'W': lambda: '⠠⠺',
+                'X': lambda: '⠠⠭',
+                'Y': lambda: '⠠⠽',
+                'Z': lambda: '⠠⠵',
+                'but': lambda: '⠃' if self.betweenSpaces and self.__sw else None,
+                'can': lambda: '⠉' if self.betweenSpaces and self.__sw else None,
+                'do': lambda: '⠙' if self.betweenSpaces and self.__sw else None,
+                'every': lambda: '⠑' if self.betweenSpaces and self.__sw else None,
+                'from': lambda: '⠋' if self.betweenSpaces and self.__sw else None,
+                'go': lambda: '⠛' if self.betweenSpaces and self.__sw else None,
+                'have': lambda: '⠓' if self.betweenSpaces and self.__sw else None,
+                'just': lambda: '⠚' if self.betweenSpaces and self.__sw else None,
+                'knowledge': lambda: '⠅' if self.betweenSpaces and self.__sw else None,
+                'like': lambda: '⠇' if self.betweenSpaces and self.__sw else None,
+                'more': lambda: '⠍' if self.betweenSpaces and self.__sw else None,
+                'not': lambda: '⠝' if self.betweenSpaces and self.__sw else None,
+                'people': lambda: '⠏' if self.betweenSpaces and self.__sw else None,
+                'quite': lambda: '⠏' if self.betweenSpaces and self.__sw else None,
+                'rather': lambda: '⠗' if self.betweenSpaces and self.__sw else None,
+                'so': lambda: '⠎' if self.betweenSpaces and self.__sw else None,
+                'that': lambda: '⠞' if self.betweenSpaces and self.__sw else None,
+                'us': lambda: '⠥' if self.betweenSpaces and self.__sw else None,
+                'very': lambda: '⠧' if self.betweenSpaces and self.__sw else None,
+                'it': lambda: '⠭' if self.betweenSpaces and self.__sw else None,
+                'you': lambda: '⠽' if self.betweenSpaces and self.__sw else None,
+                'as': lambda: '⠵' if self.betweenSpaces and self.__sw else None,
+                'and': lambda: '⠯' if self.betweenSpaces and self.__sw else None,
+                'for': lambda: '⠿' if self.betweenSpaces and self.__sw else None,
+                'of': lambda: '⠷' if self.betweenSpaces and self.__sw else None,
+                'the': lambda: '⠮' if self.betweenSpaces and self.__sw else None,
+                'with': lambda: '⠾' if self.betweenSpaces and self.__sw else None,
+                'ch': lambda:  '⠡' if self.__ss else None,
+                'gh': lambda:  '⠣' if self.__ss else None,
+                'sh': lambda:  '⠩' if self.__ss else None,
+                'th': lambda:  '⠹' if self.__ss else None,
+                'wh': lambda:  '⠱' if self.__ss else None,
+                'ed': lambda:  '⠫' if self.__ss else None,
+                'er': lambda:  '⠻' if self.__ss else None,
+                'ou': lambda:  '⠳' if self.__ss else None,
+                'ow': lambda:  '⠪' if self.__ss else None,
+                'will': lambda: '⠺' if self.betweenSpaces and self.__sw else None,
+                'ea': lambda: '⠂' if not self.hasRightSpace and self.__ss else None,
+                'bb': lambda: '⠆' if not self.hasRightSpace and self.__ss else None,
+                'cc': lambda: '⠒' if not self.hasRightSpace and self.__ss else None,
+                'dis': lambda: '⠲' if not self.hasRightSpace and self.__ss else None,
+                'en': lambda: '⠢',
+                'to': lambda: '⠖' if not self.hasOnlyRightSpace and self.__ss else '⠖' if self.betweenSpaces and self.__sw else None,  # TODO: needs upgrading
+                'gg': lambda: '⠶' if not self.hasLeftSpace and not self.hasRightSpace and self.__ss else None,
+                'his': lambda: '⠦' if not self.hasOnlyLeftSpace and ((not self.betweenSpaces and self.__ss) or self.__sw) else None,
+                'in': lambda: '⠔' if ((not self.betweenSpaces and self.__ss) or self.__sw) else None,
+                'was': lambda: '⠴' if not self.hasOnlyRightSpace and ((not self.betweenSpaces and self.__ss) or self.__sw) else None,
+                'st': lambda: '⠌' if not self.betweenSpaces and self.__ss else None,
+                'ing': lambda: '⠬' if self.__ss else None,
+                'ble': lambda: '⠼' if ((not self.hasOnlyLeftSpace or not self.hasRightNumber) or not self.betweenSpaces) and self.__ss else None,
+                'ar': lambda: '⠜' if self.__ss else None,
+                'com': lambda: '⠤' if not self.betweenSpaces and self.__ss else None,
+                '1': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠁' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '2': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠃' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '3': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠉' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '4': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠙' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '5': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠑' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '6': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠋' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '7': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠛' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '8': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠓' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '9': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠊' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                '0': lambda: ('' if self.hasLeftNumber or self.hasLeftDotNumber else ('⠀' if not self.hasLeftSpace and self.__ac else '') + '⠼') + '⠚' + ('' if self.hasRightNumber or self.hasRightDotNumber else '⠰'),
+                ',': lambda: '⠂' + ('' if self.hasRightSpace else '⠀'),
+                ';': lambda: '⠆' + ('' if self.hasRightSpace else '⠀'),
+                ':': lambda: '⠒' + ('' if self.hasRightSpace else '⠀'),
+                '.': lambda: '⠲' + ('' if self.hasRightSpace else '⠀'),
+                '!': lambda: '⠖' + ('' if self.hasRightSpace else '⠀') if not self.hasLeftSpace else None,  # TODO: needs upgrade
+                '(': lambda: ('' if self.hasLeftSpace else '⠀') + '⠶',
+                ')': lambda: '⠶' + ('' if self.hasRightSpace else '⠀') if not self.hasLeftSpace else None,
+                '«': lambda: ('' if self.hasLeftSpace else '⠀') + '⠦' if not self.hasRightSpace else None,
+                '»': lambda: '⠴' + ('' if self.hasRightSpace else '⠀') if not self.hasLeftSpace else None,
+                '/': lambda: '⠌' if self.betweenSpaces else None,
+                '#': lambda: '⠼' if self.betweenSpaces else None,
+                '\'': lambda: '⠄',
+                '-': lambda: '⠤' if self.betweenSpaces else None,
+                ' ': lambda: ' ',
+            }[self.word]()
+        except KeyError:
+            return self.word
+
+
 class BrailleText:
     def __init__(self, text_braille: str):
         self.text = text_braille
@@ -186,3 +420,30 @@ class BrailleText:
             )
         
         return ''.join([braille.getSymbol() for braille in braille_list])
+    
+    def decode(self) -> str:
+        text_list = list(self.text)
+        braille_list = []
+        index = 0
+        while index < len(text_list):
+            for i in range(9, 0, -1):
+                word = ''.join(text_list[index:index+i])
+                if word in ALL_WORDS:
+                    latin_word = LinkedLatinWord(word).setSideLatinWords(
+                        braille_list[-1] if braille_list else None,
+                        text_list[index+i] if index+i < len(text_list) else None
+                    )
+                    if latin_word.getBrailleSymbol() is not None:
+                        braille_list.append(latin_word)
+                        index += i
+                        break
+                elif len(word) == 1:
+                    braille_list.append(LinkedLatinWord(word).setSideLatinWords(
+                        braille_list[-1] if braille_list else None,
+                        text_list[index+i] if index+i < len(text_list) else None
+                    ))
+                    index += 1
+                    break
+        
+        return ''.join([braille.getBrailleSymbol() for braille in braille_list])
+
