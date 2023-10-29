@@ -6,268 +6,271 @@ const ALL_WORDS = {
 
 const ENCODER = {
     'en': {
-        '⠁': () => this.hasActiveNumericMode ? '1' : this.hasActiveShiftMode ? 'A' : 'a',
-        '⠃': () => this.hasActiveNumericMode ? '2' : this.hasActiveShiftMode ? 'B' : this._sw && this.betweenSpaces ? 'but'   : 'b',
-        '⠉': () => this.hasActiveNumericMode ? '3' : this.hasActiveShiftMode ? 'C' : this._sw && this.betweenSpaces ? 'can'   : 'c',
-        '⠙': () => this.hasActiveNumericMode ? '4' : this.hasActiveShiftMode ? 'D' : this._sw && this.betweenSpaces ? 'do'    : 'd',
-        '⠑': () => this.hasActiveNumericMode ? '5' : this.hasActiveShiftMode ? 'E' : this._sw && this.betweenSpaces ? 'every' : 'e',
-        '⠋': () => this.hasActiveNumericMode ? '6' : this.hasActiveShiftMode ? 'F' : this._sw && this.betweenSpaces ? 'from'  : 'f',
-        '⠛': () => this.hasActiveNumericMode ? '7' : this.hasActiveShiftMode ? 'G' : this._sw && this.betweenSpaces ? 'go'    : 'g',
-        '⠓': () => this.hasActiveNumericMode ? '8' : this.hasActiveShiftMode ? 'H' : this._sw && this.betweenSpaces ? 'have'  : 'h',
-        '⠊': () => this.hasActiveNumericMode ? '9' : this.hasActiveShiftMode ? 'I' : 'i',
-        '⠚': () => this.hasActiveNumericMode ? '0' : this.hasActiveShiftMode ? 'J' : this._sw && this.betweenSpaces ? 'just'  : 'j',
-        '⠅': () => this.hasActiveShiftMode ? 'K' : this._sw && this.betweenSpaces ? 'knowledge' : 'k',
-        '⠇': () => this.hasActiveShiftMode ? 'L' : this._sw && this.betweenSpaces ? 'like'      : 'l',
-        '⠍': () => this.hasActiveShiftMode ? 'M' : this._sw && this.betweenSpaces ? 'more'      : 'm',
-        '⠝': () => this.hasActiveShiftMode ? 'N' : this._sw && this.betweenSpaces ? 'not'       : 'n',
-        '⠕': () => this.hasActiveShiftMode ? 'O' : 'o',
-        '⠏': () => this.hasActiveShiftMode ? 'P' : this._sw && this.betweenSpaces ? 'people'    : 'p',
-        '⠟': () => this.hasActiveShiftMode ? 'Q' : this._sw && this.betweenSpaces ? 'quite'     : 'q',
-        '⠗': () => this.hasActiveShiftMode ? 'R' : this._sw && this.betweenSpaces ? 'rather'    : 'r',
-        '⠎': () => this.hasActiveShiftMode ? 'S' : this._sw && this.betweenSpaces ? 'so'        : 's',
-        '⠞': () => this.hasActiveShiftMode ? 'T' : this._sw && this.betweenSpaces ? 'that'      : 't',
-        '⠥': () => this.hasActiveShiftMode ? 'U' : this._sw && this.betweenSpaces ? 'us'        : 'u',
-        '⠧': () => this.hasActiveShiftMode ? 'V' : this._sw && this.betweenSpaces ? 'very'      : 'v',
-        '⠺': () => this.hasActiveShiftMode ? 'W' : this._sw && this.betweenSpaces ? 'will'      : 'w',
-        '⠭': () => this.hasActiveShiftMode ? 'X' : this._sw && this.betweenSpaces ? 'it'        : 'x',
-        '⠽': () => this.hasActiveShiftMode ? 'Y' : this._sw && this.betweenSpaces ? 'you'       : 'y',
-        '⠵': () => this.hasActiveShiftMode ? 'Z' : this._sw && this.betweenSpaces ? 'as'        : 'z',
-        '⠯': () => this._sw && this.betweenSpaces ? 'and'  : undefined,
-        '⠿': () => this._sw && this.betweenSpaces ? 'for'  : undefined,
-        '⠷': () => this._sw && this.betweenSpaces ? 'of'   : undefined,
-        '⠮': () => this._sw && this.betweenSpaces ? 'the'  : undefined,
-        '⠾': () => this._sw && this.betweenSpaces ? 'with' : undefined,
-        '⠡': () => this._ss ? 'ch' : undefined,
-        '⠣': () => this._ss ? 'gh' : undefined,
-        '⠩': () => this._ss ? 'sh' : undefined,
-        '⠹': () => this._ss ? 'th' : undefined,
-        '⠱': () => this._ss ? 'wh' : undefined,
-        '⠫': () => this._ss ? 'ed' : undefined,
-        '⠻': () => this._ss ? 'er' : undefined,
-        '⠳': () => this._ss ? 'ou' : undefined,
-        '⠪': () => this._ss ? 'ow' : undefined,
-        '⠂': () => this._adv && !this.hasSpaceAtRight               ? 'ea'  : ',',
-        '⠆': () => this._adv && !this.hasSpaceAtRight               ? 'bb'  : ';',
-        '⠒': () => this._adv && !this.hasSpaceAtRight               ? 'cc'  : ':',
-        '⠲': () => this._adv && !this.hasSpaceAtRight               ? 'dis' : '.',
-        '⠢': () => this._adv && !this.hasSpaceAtRight               ? 'en'  : '?',
-        '⠖': () => this._adv && !this.hasSpaceAtRight               ? 'to'  : '!',
-        '⠶': () => this._adv && !this.betweenSpaces                 ? 'gg'  : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : '()',
-        '⠦': () => this._adv && !this.hasSpaceOnlyAtLeft            ? 'his' : '«',
-        '⠔': () => this._adv                                        ? 'in'  : undefined,
-        '⠴': () => this._adv && !this.hasSpaceOnlyAtRight           ? 'was' : '»',
-        '⠌': () => this._adv && !this.betweenSpaces                 ? 'st'  : '/',
-        '⠬': () => this._adv                                        ? 'ing' : undefined,
-        '⠼': () => this.hasSpaceOnlyAtLeft && this.hasNumberAtRight ? '#'   : this.betweenSpaces ? '#' : 'ble',
-        '⠜': () => this._adv                                        ? 'ar'  : undefined,
-        '⠤': () => this._adv && !this.betweenSpaces                 ? 'com' : '-',  // TODO: needs upgrading
-        '⠄': () => "'",
-        '⠈': () => '`',
-        '⠘': () => undefined,
-        '⠸': () => undefined,
-        '⠐': () => undefined,
-        '⠨': () => this.betweenNumbers && this.hasActiveNumericMode ? ',' : '\u0340',
-        '⠰': () => undefined,
-        '⠠': () => undefined,
-        ' ': () => ' ',
-    },
+            '⠁': function() { return this.hasActiveNumericMode ? '1' : this.hasActiveShiftMode ? 'A' : 'a'
+        },  '⠃': function() { return this.hasActiveNumericMode ? '2' : this.hasActiveShiftMode ? 'B' : this._sw && this.betweenSpaces ? 'but'   : 'b'
+        },  '⠉': function() { return this.hasActiveNumericMode ? '3' : this.hasActiveShiftMode ? 'C' : this._sw && this.betweenSpaces ? 'can'   : 'c'
+        },  '⠙': function() { return this.hasActiveNumericMode ? '4' : this.hasActiveShiftMode ? 'D' : this._sw && this.betweenSpaces ? 'do'    : 'd'
+        },  '⠑': function() { return this.hasActiveNumericMode ? '5' : this.hasActiveShiftMode ? 'E' : this._sw && this.betweenSpaces ? 'every' : 'e'
+        },  '⠋': function() { return this.hasActiveNumericMode ? '6' : this.hasActiveShiftMode ? 'F' : this._sw && this.betweenSpaces ? 'from'  : 'f'
+        },  '⠛': function() { return this.hasActiveNumericMode ? '7' : this.hasActiveShiftMode ? 'G' : this._sw && this.betweenSpaces ? 'go'    : 'g'
+        },  '⠓': function() { return this.hasActiveNumericMode ? '8' : this.hasActiveShiftMode ? 'H' : this._sw && this.betweenSpaces ? 'have'  : 'h'
+        },  '⠊': function() { return this.hasActiveNumericMode ? '9' : this.hasActiveShiftMode ? 'I' : 'i'
+        },  '⠚': function() { return this.hasActiveNumericMode ? '0' : this.hasActiveShiftMode ? 'J' : this._sw && this.betweenSpaces ? 'just'  : 'j'
+        },  '⠅': function() { return this.hasActiveShiftMode ? 'K' : this._sw && this.betweenSpaces ? 'knowledge' : 'k'
+        },  '⠇': function() { return this.hasActiveShiftMode ? 'L' : this._sw && this.betweenSpaces ? 'like'      : 'l'
+        },  '⠍': function() { return this.hasActiveShiftMode ? 'M' : this._sw && this.betweenSpaces ? 'more'      : 'm'
+        },  '⠝': function() { return this.hasActiveShiftMode ? 'N' : this._sw && this.betweenSpaces ? 'not'       : 'n'
+        },  '⠕': function() { return this.hasActiveShiftMode ? 'O' : 'o'
+        },  '⠏': function() { return this.hasActiveShiftMode ? 'P' : this._sw && this.betweenSpaces ? 'people'    : 'p'
+        },  '⠟': function() { return this.hasActiveShiftMode ? 'Q' : this._sw && this.betweenSpaces ? 'quite'     : 'q'
+        },  '⠗': function() { return this.hasActiveShiftMode ? 'R' : this._sw && this.betweenSpaces ? 'rather'    : 'r'
+        },  '⠎': function() { return this.hasActiveShiftMode ? 'S' : this._sw && this.betweenSpaces ? 'so'        : 's'
+        },  '⠞': function() { return this.hasActiveShiftMode ? 'T' : this._sw && this.betweenSpaces ? 'that'      : 't'
+        },  '⠥': function() { return this.hasActiveShiftMode ? 'U' : this._sw && this.betweenSpaces ? 'us'        : 'u'
+        },  '⠧': function() { return this.hasActiveShiftMode ? 'V' : this._sw && this.betweenSpaces ? 'very'      : 'v'
+        },  '⠺': function() { return this.hasActiveShiftMode ? 'W' : this._sw && this.betweenSpaces ? 'will'      : 'w'
+        },  '⠭': function() { return this.hasActiveShiftMode ? 'X' : this._sw && this.betweenSpaces ? 'it'        : 'x'
+        },  '⠽': function() { return this.hasActiveShiftMode ? 'Y' : this._sw && this.betweenSpaces ? 'you'       : 'y'
+        },  '⠵': function() { return this.hasActiveShiftMode ? 'Z' : this._sw && this.betweenSpaces ? 'as'        : 'z'
+        },  '⠯': function() { return this._sw && this.betweenSpaces ? 'and'  : undefined
+        },  '⠿': function() { return this._sw && this.betweenSpaces ? 'for'  : undefined
+        },  '⠷': function() { return this._sw && this.betweenSpaces ? 'of'   : undefined
+        },  '⠮': function() { return this._sw && this.betweenSpaces ? 'the'  : undefined
+        },  '⠾': function() { return this._sw && this.betweenSpaces ? 'with' : undefined
+        },  '⠡': function() { return this._ss ? 'ch' : undefined
+        },  '⠣': function() { return this._ss ? 'gh' : undefined
+        },  '⠩': function() { return this._ss ? 'sh' : undefined
+        },  '⠹': function() { return this._ss ? 'th' : undefined
+        },  '⠱': function() { return this._ss ? 'wh' : undefined
+        },  '⠫': function() { return this._ss ? 'ed' : undefined
+        },  '⠻': function() { return this._ss ? 'er' : undefined
+        },  '⠳': function() { return this._ss ? 'ou' : undefined
+        },  '⠪': function() { return this._ss ? 'ow' : undefined
+        },  '⠂': function() { return this._adv && !this.hasSpaceAtRight               ? 'ea'  : ','
+        },  '⠆': function() { return this._adv && !this.hasSpaceAtRight               ? 'bb'  : ';'
+        },  '⠒': function() { return this._adv && !this.hasSpaceAtRight               ? 'cc'  : ':'
+        },  '⠲': function() { return this._adv && !this.hasSpaceAtRight               ? 'dis' : '.'
+        },  '⠢': function() { return this._adv && !this.hasSpaceAtRight               ? 'en'  : '?'
+        },  '⠖': function() { return this._adv && !this.hasSpaceAtRight               ? 'to'  : '!'
+        },  '⠶': function() { return this._adv && !this.betweenSpaces                 ? 'gg'  : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : '()'
+        },  '⠦': function() { return this._adv && !this.hasSpaceOnlyAtLeft            ? 'his' : '«'
+        },  '⠔': function() { return this._adv                                        ? 'in'  : undefined
+        },  '⠴': function() { return this._adv && !this.hasSpaceOnlyAtRight           ? 'was' : '»'
+        },  '⠌': function() { return this._adv && !this.betweenSpaces                 ? 'st'  : '/'
+        },  '⠬': function() { return this._adv                                        ? 'ing' : undefined
+        },  '⠼': function() { return this.hasSpaceOnlyAtLeft && this.hasNumberAtRight ? '#'   : this.betweenSpaces ? '#' : 'ble'
+        },  '⠜': function() { return this._adv                                        ? 'ar'  : undefined
+        },  '⠤': function() { return this._adv && !this.betweenSpaces                 ? 'com' : '-'
+        },  '⠄': function() { return "'"
+        },  '⠈': function() { return '`'
+        },  '⠘': function() { return undefined
+        },  '⠸': function() { return undefined
+        },  '⠐': function() { return undefined
+        },  '⠨': function() { return this.betweenNumbers && this.hasActiveNumericMode ? ',' : '\u0340'
+        },  '⠰': function() { return undefined
+        },  '⠠': function() { return undefined
+        },  ' ': function() { return ' '
+        },
+    }, 
     'ru': {
-        '⠁': () => this.hasActiveNumericMode ? '1' : this.hasActiveShiftMode ? 'А' : 'а',
-        '⠃': () => this.hasActiveNumericMode ? '2' : this.hasActiveShiftMode ? 'Б' : 'б',
-        '⠉': () => this.hasActiveNumericMode ? '3' : this.hasActiveShiftMode ? 'Ц' : 'ц',
-        '⠙': () => this.hasActiveNumericMode ? '4' : this.hasActiveShiftMode ? 'Д' : 'д',
-        '⠑': () => this.hasActiveNumericMode ? '5' : this.hasActiveShiftMode ? 'Е' : 'е',
-        '⠋': () => this.hasActiveNumericMode ? '6' : this.hasActiveShiftMode ? 'Ф' : 'ф',
-        '⠛': () => this.hasActiveNumericMode ? '7' : this.hasActiveShiftMode ? 'Г' : 'г',
-        '⠓': () => this.hasActiveNumericMode ? '8' : this.hasActiveShiftMode ? 'Х' : 'х',
-        '⠊': () => this.hasActiveNumericMode ? '9' : this.hasActiveShiftMode ? 'И' : 'и',
-        '⠚': () => this.hasActiveNumericMode ? '0' : this.hasActiveShiftMode ? 'Ж' : 'ж',
-        '⠅': () => this.hasActiveShiftMode ? 'К' : 'к',
-        '⠇': () => this.hasActiveShiftMode ? 'Л' : 'л',
-        '⠍': () => this.hasActiveShiftMode ? 'М' : 'м',
-        '⠝': () => this.hasActiveShiftMode ? 'Н' : 'н',
-        '⠕': () => this.hasActiveShiftMode ? 'О' : 'о',
-        '⠏': () => this.hasActiveShiftMode ? 'П' : 'п',
-        '⠟': () => this.hasActiveShiftMode ? 'Ч' : 'ч',
-        '⠗': () => this.hasActiveShiftMode ? 'Р' : 'р',
-        '⠎': () => this.hasActiveShiftMode ? 'С' : 'с',
-        '⠞': () => this.hasActiveShiftMode ? 'Т' : 'т',
-        '⠥': () => this.hasActiveShiftMode ? 'У' : 'У',
-        '⠧': () => undefined,
-        '⠺': () => this.hasActiveShiftMode ? 'В' : 'в',
-        '⠭': () => this.hasActiveShiftMode ? 'Щ' : 'щ',
-        '⠽': () => undefined,
-        '⠵': () => this.hasActiveShiftMode ? 'З' : 'з',
-        '⠯': () => this.hasActiveShiftMode ? 'Й' : 'й',
-        '⠿': () => undefined,
-        '⠷': () => this.hasActiveShiftMode ? 'Ъ' : 'ъ',
-        '⠮': () => this.hasActiveShiftMode ? 'Ы' : 'ы',
-        '⠾': () => this.hasActiveShiftMode ? 'Ь' : 'ь',
-        '⠡': () => this.hasActiveShiftMode ? 'Ё' : 'ё',
-        '⠣': () => '(',
-        '⠩': () => undefined,
-        '⠹': () => undefined,
-        '⠱': () => this.hasActiveShiftMode ? 'Ш' : 'ш',
-        '⠫': () => this.hasActiveShiftMode ? 'Я' : 'я',
-        '⠻': () => undefined,
-        '⠳': () => this.hasActiveShiftMode ? 'Ю' : 'ю',
-        '⠪': () => this.hasActiveShiftMode ? 'Э' : 'э',
-        '⠂': () => ',',
-        '⠆': () => ';',
-        '⠒': () => ':',
-        '⠲': () => '.',
-        '⠢': () => '?',
-        '⠖': () => '!',
-        '⠶': () => undefined,
-        '⠦': () => '«',
-        '⠔': () => undefined,
-        '⠴': () => '»',
-        '⠌': () => '/',
-        '⠬': () => undefined,
-        '⠼': () => this.hasSpaceOnlyAtLeft && this.hasNumberAtRight ? '#'   : this.betweenSpaces ? '#' : 'ble',
-        '⠜': () => ')',
-        '⠄': () => "'",
-        '⠤': () => this._adv && !this.betweenSpaces                 ? 'com' : '-',  // TODO: needs upgrading
-        '⠈': () => '`',
-        '⠘': () => undefined,
-        '⠸': () => undefined,
-        '⠐': () => undefined,
-        '⠨': () => this.betweenNumbers && this.hasActiveNumericMode ? ',' : '\u0340',
-        '⠰': () => undefined,
-        '⠠': () => undefined,
-        ' ': () => ' ',
+            '⠁': function() { return this.hasActiveNumericMode ? '1' : this.hasActiveShiftMode ? 'А' : 'а'
+        },  '⠃': function() { return this.hasActiveNumericMode ? '2' : this.hasActiveShiftMode ? 'Б' : 'б'
+        },  '⠉': function() { return this.hasActiveNumericMode ? '3' : this.hasActiveShiftMode ? 'Ц' : 'ц'
+        },  '⠙': function() { return this.hasActiveNumericMode ? '4' : this.hasActiveShiftMode ? 'Д' : 'д'
+        },  '⠑': function() { return this.hasActiveNumericMode ? '5' : this.hasActiveShiftMode ? 'Е' : 'е'
+        },  '⠋': function() { return this.hasActiveNumericMode ? '6' : this.hasActiveShiftMode ? 'Ф' : 'ф'
+        },  '⠛': function() { return this.hasActiveNumericMode ? '7' : this.hasActiveShiftMode ? 'Г' : 'г'
+        },  '⠓': function() { return this.hasActiveNumericMode ? '8' : this.hasActiveShiftMode ? 'Х' : 'х'
+        },  '⠊': function() { return this.hasActiveNumericMode ? '9' : this.hasActiveShiftMode ? 'И' : 'и'
+        },  '⠚': function() { return this.hasActiveNumericMode ? '0' : this.hasActiveShiftMode ? 'Ж' : 'ж'
+        },  '⠅': function() { return this.hasActiveShiftMode ? 'К' : 'к'
+        },  '⠇': function() { return this.hasActiveShiftMode ? 'Л' : 'л'
+        },  '⠍': function() { return this.hasActiveShiftMode ? 'М' : 'м'
+        },  '⠝': function() { return this.hasActiveShiftMode ? 'Н' : 'н'
+        },  '⠕': function() { return this.hasActiveShiftMode ? 'О' : 'о'
+        },  '⠏': function() { return this.hasActiveShiftMode ? 'П' : 'п'
+        },  '⠟': function() { return this.hasActiveShiftMode ? 'Ч' : 'ч'
+        },  '⠗': function() { return this.hasActiveShiftMode ? 'Р' : 'р'
+        },  '⠎': function() { return this.hasActiveShiftMode ? 'С' : 'с'
+        },  '⠞': function() { return this.hasActiveShiftMode ? 'Т' : 'т'
+        },  '⠥': function() { return this.hasActiveShiftMode ? 'У' : 'У'
+        },  '⠧': function() { return undefined
+        },  '⠺': function() { return this.hasActiveShiftMode ? 'В' : 'в'
+        },  '⠭': function() { return this.hasActiveShiftMode ? 'Щ' : 'щ'
+        },  '⠽': function() { return undefined
+        },  '⠵': function() { return this.hasActiveShiftMode ? 'З' : 'з'
+        },  '⠯': function() { return this.hasActiveShiftMode ? 'Й' : 'й'
+        },  '⠿': function() { return undefined
+        },  '⠷': function() { return this.hasActiveShiftMode ? 'Ъ' : 'ъ'
+        },  '⠮': function() { return this.hasActiveShiftMode ? 'Ы' : 'ы'
+        },  '⠾': function() { return this.hasActiveShiftMode ? 'Ь' : 'ь'
+        },  '⠡': function() { return this.hasActiveShiftMode ? 'Ё' : 'ё'
+        },  '⠣': function() { return '('
+        },  '⠩': function() { return undefined
+        },  '⠹': function() { return undefined
+        },  '⠱': function() { return this.hasActiveShiftMode ? 'Ш' : 'ш'
+        },  '⠫': function() { return this.hasActiveShiftMode ? 'Я' : 'я'
+        },  '⠻': function() { return undefined
+        },  '⠳': function() { return this.hasActiveShiftMode ? 'Ю' : 'ю'
+        },  '⠪': function() { return this.hasActiveShiftMode ? 'Э' : 'э'
+        },  '⠂': function() { return ','
+        },  '⠆': function() { return ';'
+        },  '⠒': function() { return ':'
+        },  '⠲': function() { return '.'
+        },  '⠢': function() { return '?'
+        },  '⠖': function() { return '!'
+        },  '⠶': function() { return undefined
+        },  '⠦': function() { return '«'
+        },  '⠔': function() { return undefined
+        },  '⠴': function() { return '»'
+        },  '⠌': function() { return '/'
+        },  '⠬': function() { return undefined
+        },  '⠼': function() { return this.hasSpaceOnlyAtLeft && this.hasNumberAtRight ? '#'   : this.betweenSpaces ? '#' : 'ble'
+        },  '⠜': function() { return ')'
+        },  '⠄': function() { return "'"
+        },  '⠤': function() { return this._adv && !this.betweenSpaces                 ? 'com' : '-'
+        },  '⠈': function() { return '`'
+        },  '⠘': function() { return undefined
+        },  '⠸': function() { return undefined
+        },  '⠐': function() { return undefined
+        },  '⠨': function() { return this.betweenNumbers && this.hasActiveNumericMode ? ',' : '\u0340'
+        },  '⠰': function() { return undefined
+        },  '⠠': function() { return undefined
+        },  ' ': function() { return ' '
+        },
     }
 }
 const DECODER = {
     'en': {
-        'a': () => '⠁',
-        'c': () => '⠉',
-        'b': () => '⠃',
-        'd': () => '⠙',
-        'e': () => '⠑',
-        'f': () => '⠋',
-        'g': () => '⠛',
-        'h': () => '⠓',
-        'i': () => '⠊',
-        'j': () => '⠚',
-        'k': () => '⠅',
-        'l': () => '⠇',
-        'm': () => '⠍',
-        'n': () => '⠝',
-        'o': () => '⠕',
-        'p': () => '⠏',
-        'q': () => '⠟',
-        'r': () => '⠗',
-        's': () => '⠎',
-        't': () => '⠞',
-        'u': () => '⠥',
-        'v': () => '⠧',
-        'w': () => !this.betweenSpaces ? '⠺' : undefined,
-        'x': () => '⠭',
-        'y': () => '⠽',
-        'z': () => '⠵',
-        'A': () => '⠠⠁',
-        'B': () => '⠠⠃',
-        'C': () => '⠠⠉',
-        'D': () => '⠠⠙',
-        'E': () => '⠠⠑',
-        'F': () => '⠠⠋',
-        'G': () => '⠠⠛',
-        'H': () => '⠠⠓',
-        'I': () => '⠠⠊',
-        'J': () => '⠠⠚',
-        'K': () => '⠠⠅',
-        'L': () => '⠠⠇',
-        'M': () => '⠠⠍',
-        'N': () => '⠠⠝',
-        'O': () => '⠠⠕',
-        'P': () => '⠠⠏',
-        'Q': () => '⠠⠟',
-        'R': () => '⠠⠗',
-        'S': () => '⠠⠎',
-        'T': () => '⠠⠞',
-        'U': () => '⠠⠥',
-        'V': () => '⠠⠧',
-        'W': () => '⠠⠺',
-        'X': () => '⠠⠭',
-        'Y': () => '⠠⠽',
-        'Z': () => '⠠⠵',
-        'but'      : () => this.betweenSpaces && this._sw ? '⠃' : undefined,
-        'can'      : () => this.betweenSpaces && this._sw ? '⠉' : undefined,
-        'do'       : () => this.betweenSpaces && this._sw ? '⠙' : undefined,
-        'every'    : () => this.betweenSpaces && this._sw ? '⠑' : undefined,
-        'from'     : () => this.betweenSpaces && this._sw ? '⠋' : undefined,
-        'go'       : () => this.betweenSpaces && this._sw ? '⠛' : undefined,
-        'have'     : () => this.betweenSpaces && this._sw ? '⠓' : undefined,
-        'just'     : () => this.betweenSpaces && this._sw ? '⠚' : undefined,
-        'knowledge': () => this.betweenSpaces && this._sw ? '⠅' : undefined,
-        'like'     : () => this.betweenSpaces && this._sw ? '⠇' : undefined,
-        'more'     : () => this.betweenSpaces && this._sw ? '⠍' : undefined,
-        'not'      : () => this.betweenSpaces && this._sw ? '⠝' : undefined,
-        'people'   : () => this.betweenSpaces && this._sw ? '⠏' : undefined,
-        'quite'    : () => this.betweenSpaces && this._sw ? '⠏' : undefined,
-        'rather'   : () => this.betweenSpaces && this._sw ? '⠗' : undefined,
-        'so'       : () => this.betweenSpaces && this._sw ? '⠎' : undefined,
-        'that'     : () => this.betweenSpaces && this._sw ? '⠞' : undefined,
-        'us'       : () => this.betweenSpaces && this._sw ? '⠥' : undefined,
-        'very'     : () => this.betweenSpaces && this._sw ? '⠧' : undefined,
-        'it'       : () => this.betweenSpaces && this._sw ? '⠭' : undefined,
-        'you'      : () => this.betweenSpaces && this._sw ? '⠽' : undefined,
-        'as'       : () => this.betweenSpaces && this._sw ? '⠵' : undefined,
-        'and'      : () => this.betweenSpaces && this._sw ? '⠯' : undefined,
-        'for'      : () => this.betweenSpaces && this._sw ? '⠿' : undefined,
-        'of'       : () => this.betweenSpaces && this._sw ? '⠷' : undefined,
-        'the'      : () => this.betweenSpaces && this._sw ? '⠮' : undefined,
-        'with'     : () => this.betweenSpaces && this._sw ? '⠾' : undefined,
-        'ch'  : () => this._ss ? '⠡' : undefined,
-        'gh'  : () => this._ss ? '⠣' : undefined,
-        'sh'  : () => this._ss ? '⠩' : undefined,
-        'th'  : () => this._ss ? '⠹' : undefined,
-        'wh'  : () => this._ss ? '⠱' : undefined,
-        'ed'  : () => this._ss ? '⠫' : undefined,
-        'er'  : () => this._ss ? '⠻' : undefined,
-        'ou'  : () => this._ss ? '⠳' : undefined,
-        'ow'  : () => this._ss ? '⠪' : undefined,
-        'will': () => this._sw &&  this.betweenSpaces   ? '⠺' : undefined,
-        'ea'  : () => this._ss && !this.hasSpaceAtRight ? '⠂' : undefined,
-        'bb'  : () => this._ss && !this.hasSpaceAtRight ? '⠆' : undefined,
-        'cc'  : () => this._ss && !this.hasSpaceAtRight ? '⠒' : undefined,
-        'dis' : () => this._ss && !this.hasSpaceAtRight ? '⠲' : undefined,
-        'en'  : () => '⠢',
-        'to'  : () => !this.hasSpaceOnlyAtRight && this._ss ? '⠖' : this.betweenSpaces && this._sw ? '⠖' : undefined,  // TODO: needs upgrading
-        'gg'  : () => !this.hasSpaceAtLeft && !this.hasSpaceAtRight && this._ss ? '⠶' : undefined,
-        'his' : () => !this.hasSpaceOnlyAtLeft && ((!this.betweenSpaces && this._ss) || this._sw) ? '⠦' : undefined,
-        'in'  : () => ((!this.betweenSpaces && this._ss) || this._sw) ? '⠔' : undefined,
-        'was' : () => !this.hasSpaceOnlyAtRight && ((!this.betweenSpaces && this._ss) || this._sw) ? '⠴' : undefined,
-        'st'  : () => !this.betweenSpaces && this._ss ? '⠌' : undefined,
-        'ing' : () => this._ss ? '⠬' : undefined,
-        'ble' : () => ((!this.hasSpaceOnlyAtLeft || !this.hasNumberAtRight) || !this.betweenSpaces) && this._ss ? '⠼' :  undefined,
-        'ar'  : () => this._ss ? '⠜' : undefined,
-        'com' : () => !this.betweenSpaces && this._ss ? '⠤' : undefined,
-        '1': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠁' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '2': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠃' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '3': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠉' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '4': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠙' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '5': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠑' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '6': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠋' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '7': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠛' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '8': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠓' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '9': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠊' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        '0': () => (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠚' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰'),
-        ',': () => '⠂' + (this.hasSpaceAtRight ? '' : '⠀'),
-        ';': () => '⠆' + (this.hasSpaceAtRight ? '' : '⠀'),
-        ':': () => '⠒' + (this.hasSpaceAtRight ? '' : '⠀'),
-        '.': () => '⠲' + (this.hasSpaceAtRight ? '' : '⠀'),
-        '!': () => !this.hasSpaceAtLeft ? '⠖' + (this.hasSpaceAtRight ? '' : '⠀') : undefined,  // TODO: needs upgrade
-        '(': () => (this.hasSpaceAtLeft ? '' : '⠀') + '⠶',
-        ')': () => !this.hasSpaceAtLeft ? '⠶' + (this.hasSpaceAtRight ? '' : '⠀') : undefined,
-        '«': () => !this.hasSpaceAtRight ? (this.hasSpaceAtLeft ? '' : '⠀') + '⠦' : undefined,
-        '»': () => !this.hasSpaceAtLeft ? '⠴' + (this.hasSpaceAtRight ? '' : '⠀') : undefined,
-        '/': () => this.betweenSpaces ? '⠌' : undefined,
-        '#': () => this.betweenSpaces ? '⠼' : undefined,
-        "'": () => '⠄',
-        '-': () => this.betweenSpaces ? '⠤' : undefined,
-        ' ': () => ' ',
+            'a': function() { return '⠁'
+        },  'c': function() { return '⠉'
+        },  'b': function() { return '⠃'
+        },  'd': function() { return '⠙'
+        },  'e': function() { return '⠑'
+        },  'f': function() { return '⠋'
+        },  'g': function() { return '⠛'
+        },  'h': function() { return '⠓'
+        },  'i': function() { return '⠊'
+        },  'j': function() { return '⠚'
+        },  'k': function() { return '⠅'
+        },  'l': function() { return '⠇'
+        },  'm': function() { return '⠍'
+        },  'n': function() { return '⠝'
+        },  'o': function() { return '⠕'
+        },  'p': function() { return '⠏'
+        },  'q': function() { return '⠟'
+        },  'r': function() { return '⠗'
+        },  's': function() { return '⠎'
+        },  't': function() { return '⠞'
+        },  'u': function() { return '⠥'
+        },  'v': function() { return '⠧'
+        },  'w': function() { return !this.betweenSpaces ? '⠺' : undefined
+        },  'x': function() { return '⠭'
+        },  'y': function() { return '⠽'
+        },  'z': function() { return '⠵'
+        },  'A': function() { return '⠠⠁'
+        },  'B': function() { return '⠠⠃'
+        },  'C': function() { return '⠠⠉'
+        },  'D': function() { return '⠠⠙'
+        },  'E': function() { return '⠠⠑'
+        },  'F': function() { return '⠠⠋'
+        },  'G': function() { return '⠠⠛'
+        },  'H': function() { return '⠠⠓'
+        },  'I': function() { return '⠠⠊'
+        },  'J': function() { return '⠠⠚'
+        },  'K': function() { return '⠠⠅'
+        },  'L': function() { return '⠠⠇'
+        },  'M': function() { return '⠠⠍'
+        },  'N': function() { return '⠠⠝'
+        },  'O': function() { return '⠠⠕'
+        },  'P': function() { return '⠠⠏'
+        },  'Q': function() { return '⠠⠟'
+        },  'R': function() { return '⠠⠗'
+        },  'S': function() { return '⠠⠎'
+        },  'T': function() { return '⠠⠞'
+        },  'U': function() { return '⠠⠥'
+        },  'V': function() { return '⠠⠧'
+        },  'W': function() { return '⠠⠺'
+        },  'X': function() { return '⠠⠭'
+        },  'Y': function() { return '⠠⠽'
+        },  'Z': function() { return '⠠⠵'
+        },  'but'      : function() { return this.betweenSpaces && this._sw ? '⠃' : undefined
+        },  'can'      : function() { return this.betweenSpaces && this._sw ? '⠉' : undefined
+        },  'do'       : function() { return this.betweenSpaces && this._sw ? '⠙' : undefined
+        },  'every'    : function() { return this.betweenSpaces && this._sw ? '⠑' : undefined
+        },  'from'     : function() { return this.betweenSpaces && this._sw ? '⠋' : undefined
+        },  'go'       : function() { return this.betweenSpaces && this._sw ? '⠛' : undefined
+        },  'have'     : function() { return this.betweenSpaces && this._sw ? '⠓' : undefined
+        },  'just'     : function() { return this.betweenSpaces && this._sw ? '⠚' : undefined
+        },  'knowledge': function() { return this.betweenSpaces && this._sw ? '⠅' : undefined
+        },  'like'     : function() { return this.betweenSpaces && this._sw ? '⠇' : undefined
+        },  'more'     : function() { return this.betweenSpaces && this._sw ? '⠍' : undefined
+        },  'not'      : function() { return this.betweenSpaces && this._sw ? '⠝' : undefined
+        },  'people'   : function() { return this.betweenSpaces && this._sw ? '⠏' : undefined
+        },  'quite'    : function() { return this.betweenSpaces && this._sw ? '⠏' : undefined
+        },  'rather'   : function() { return this.betweenSpaces && this._sw ? '⠗' : undefined
+        },  'so'       : function() { return this.betweenSpaces && this._sw ? '⠎' : undefined
+        },  'that'     : function() { return this.betweenSpaces && this._sw ? '⠞' : undefined
+        },  'us'       : function() { return this.betweenSpaces && this._sw ? '⠥' : undefined
+        },  'very'     : function() { return this.betweenSpaces && this._sw ? '⠧' : undefined
+        },  'it'       : function() { return this.betweenSpaces && this._sw ? '⠭' : undefined
+        },  'you'      : function() { return this.betweenSpaces && this._sw ? '⠽' : undefined
+        },  'as'       : function() { return this.betweenSpaces && this._sw ? '⠵' : undefined
+        },  'and'      : function() { return this.betweenSpaces && this._sw ? '⠯' : undefined
+        },  'for'      : function() { return this.betweenSpaces && this._sw ? '⠿' : undefined
+        },  'of'       : function() { return this.betweenSpaces && this._sw ? '⠷' : undefined
+        },  'the'      : function() { return this.betweenSpaces && this._sw ? '⠮' : undefined
+        },  'with'     : function() { return this.betweenSpaces && this._sw ? '⠾' : undefined
+        },  'ch'  : function() { return this._ss ? '⠡' : undefined
+        },  'gh'  : function() { return this._ss ? '⠣' : undefined
+        },  'sh'  : function() { return this._ss ? '⠩' : undefined
+        },  'th'  : function() { return this._ss ? '⠹' : undefined
+        },  'wh'  : function() { return this._ss ? '⠱' : undefined
+        },  'ed'  : function() { return this._ss ? '⠫' : undefined
+        },  'er'  : function() { return this._ss ? '⠻' : undefined
+        },  'ou'  : function() { return this._ss ? '⠳' : undefined
+        },  'ow'  : function() { return this._ss ? '⠪' : undefined
+        },  'will': function() { return this._sw &&  this.betweenSpaces   ? '⠺' : undefined
+        },  'ea'  : function() { return this._ss && !this.hasSpaceAtRight ? '⠂' : undefined
+        },  'bb'  : function() { return this._ss && !this.hasSpaceAtRight ? '⠆' : undefined
+        },  'cc'  : function() { return this._ss && !this.hasSpaceAtRight ? '⠒' : undefined
+        },  'dis' : function() { return this._ss && !this.hasSpaceAtRight ? '⠲' : undefined
+        },  'en'  : function() { return '⠢'
+        },  'to'  : function() { return !this.hasSpaceOnlyAtRight && this._ss ? '⠖' : this.betweenSpaces && this._sw ? '⠖' : undefined
+        },  'gg'  : function() { return !this.hasSpaceAtLeft && !this.hasSpaceAtRight && this._ss ? '⠶' : undefined
+        },  'his' : function() { return !this.hasSpaceOnlyAtLeft && ((!this.betweenSpaces && this._ss) || this._sw) ? '⠦' : undefined
+        },  'in'  : function() { return ((!this.betweenSpaces && this._ss) || this._sw) ? '⠔' : undefined
+        },  'was' : function() { return !this.hasSpaceOnlyAtRight && ((!this.betweenSpaces && this._ss) || this._sw) ? '⠴' : undefined
+        },  'st'  : function() { return !this.betweenSpaces && this._ss ? '⠌' : undefined
+        },  'ing' : function() { return this._ss ? '⠬' : undefined
+        },  'ble' : function() { return ((!this.hasSpaceOnlyAtLeft || !this.hasNumberAtRight) || !this.betweenSpaces) && this._ss ? '⠼' :  undefined
+        },  'ar'  : function() { return this._ss ? '⠜' : undefined
+        },  'com' : function() { return !this.betweenSpaces && this._ss ? '⠤' : undefined
+        },  '1': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠁' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '2': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠃' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '3': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠉' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '4': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠙' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '5': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠑' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '6': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠋' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '7': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠛' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '8': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠓' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '9': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠊' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  '0': function() { return (this.hasNumberAtLeft || this.hasDotNumberAtLeft ? '' : (!this.hasSpaceAtLeft && this._ac ? '⠀' : '') + '⠼') + '⠚' + (this.hasNumberAtRight || this.hasDotNumberAtRight ? '' : '⠰')
+        },  ',': function() { return '⠂' + (this.hasSpaceAtRight ? '' : '⠀')
+        },  ';': function() { return '⠆' + (this.hasSpaceAtRight ? '' : '⠀')
+        },  ':': function() { return '⠒' + (this.hasSpaceAtRight ? '' : '⠀')
+        },  '.': function() { return '⠲' + (this.hasSpaceAtRight ? '' : '⠀')
+        },  '!': function() { return !this.hasSpaceAtLeft ? '⠖' + (this.hasSpaceAtRight ? '' : '⠀') : undefined
+        },  '(': function() { return (this.hasSpaceAtLeft ? '' : '⠀') + '⠶'
+        },  ')': function() { return !this.hasSpaceAtLeft ? '⠶' + (this.hasSpaceAtRight ? '' : '⠀') : undefined
+        },  '«': function() { return !this.hasSpaceAtRight ? (this.hasSpaceAtLeft ? '' : '⠀') + '⠦' : undefined
+        },  '»': function() { return !this.hasSpaceAtLeft ? '⠴' + (this.hasSpaceAtRight ? '' : '⠀') : undefined
+        },  '/': function() { return this.betweenSpaces ? '⠌' : undefined
+        },  '#': function() { return this.betweenSpaces ? '⠼' : undefined
+        },  "'": function() { return '⠄'
+        },  '-': function() { return this.betweenSpaces ? '⠤' : undefined
+        },  ' ': function() { return ' '
+        },
     },
     'ru': {
         'а': () => '⠁',
@@ -408,7 +411,7 @@ class Linked {
 
     // Modes
     get hasActiveNumericMode() {
-        if (this.isEnableNumbericSymbol) {
+        if (this.isEnableNumericSymbol) {
             return true;
         } else if (this.isDisableNumericSymbol || !(this.isNumberSymbol || this.isDotNumberSymbol)) {
             return false;
@@ -444,7 +447,7 @@ class LinkedBrailleSymbol extends Linked {
 
     // Define chars
     get isSpaceSymbol() {
-        return this.char === '⠀' || /\S/.test(this.char);
+        return this.char === '⠀' || /^\s$/.test(this.char);
     }
     get isEnableNumericSymbol() {
         return this.char === '⠼' && this.hasSpaceOnlyAtLeft && this.hasNumberAtRight;
@@ -459,7 +462,7 @@ class LinkedBrailleSymbol extends Linked {
         }[this.lang]();
     }
     get isNumberSymbol() {
-        return ['⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚'].some(v === this.char);
+        return ['⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚'].some(v => v === this.char);
     }
 
     // Get symbol
@@ -467,7 +470,6 @@ class LinkedBrailleSymbol extends Linked {
         return ENCODER[this.lang][this.char]?.call(this) ?? (this.#debug ? this.char : '');
     }
 }
-
 
 class MinimumLinkedLettersWord extends Linked {
     constructor(word) {
@@ -483,7 +485,7 @@ class MinimumLinkedLettersWord extends Linked {
         return /^\d+$/.test(this.word);
     }
     get isDotNumberSymbol() {
-        return this.last.isNumberSymbol && this.next.isNumberSymbol && /^[\.,]\d+/.test(this.word);
+        return this.last.isNumberSymbol && this.next.isNumberSymbol && /^[\.,]$/.test(this.word);
     }
 }
 
@@ -522,13 +524,13 @@ class Braille {
      * @param {Object} options { autocorrect, shorten_syllables, shorten_words, advanced }
      * @returns letters text
      */
-    static encode(braille_text, language='en', options, debug=false) {
+    static encode(braille_text, language='en', options={}, debug=false) {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
 
-        let list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, options, debug));
+        const list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, options, debug));
         
-        let pairList = list.map((v, i) => v.setPair(list[i-1], list[i+1]));
-        return pairList.map(v => v.symbol).join('');
+        list.map((v, i) => v.setPair(list[i-1], list[i+1]));
+        return list.map(v => v.symbol).join('');
     }
 
     /**
@@ -538,23 +540,23 @@ class Braille {
      * @param {Object} options { autocorrect, shorten_syllables, shorten_words, advanced }
      * @returns braille text
      */
-    static decode(letters_text, language='en', options, debug=false) {
+    static decode(letters_text, language='en', options={}, debug=false) {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
 
         let list = [];
         if (!options.shorten_syllables && !options.shorten_words) {
             list = Array.from(letters_text, v => new LinkedLettersWord(v, language, options, debug));
         } else {
-            for (let j, i = 0; i < letters_text.length; i+=j) {
+            for (let j, i = 0; i < letters_text.length; i+=(j||1)) {
                 for (j = options.shorten_words ? 9 : 3; j > 0; j--) {
-                    let word = letters_text.slice(i, i+j+1);
+                    let word = letters_text.slice(i, i+j);
 
                     if (ALL_WORDS[language].includes(word)) {
-                        let latin_word = new LinkedLettersWord(word, language, options, debug).setPair(
+                        let letters_word = new LinkedLettersWord(word, language, options, debug).setPair(
                             list.at(-1), new MinimumLinkedLettersWord(letters_text[i+j])
                         );
-                        if (latin_word.symbol) {
-                            list.push(latin_word);
+                        if (letters_word.symbol) {
+                            list.push(letters_word);
                             break;
                         }
                     } else if (word.length == 1) {
