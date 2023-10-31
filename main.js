@@ -187,7 +187,7 @@ const ENCODER = {
                                 :                               'cc'
         },  '⠲': function() { return this.type == 'EBAE'
                                 ? this.next?.isTraditionalNumberModeSymbol || this.hasAccentMarkAtLeft ? '$' : this._ ? '.' : 'dd'
-                                : this.inEllipsis                                                            ? '.' : this._ ? '.' : 'dd'
+                                : this.inEllipsis                                                      ? '.' : this._ ? '.' : 'dd'
         },  '⠢': function() { return 'en'
         },  '⠖': function() { return 'ff'
         },  '⠶': function() { return this.type == 'EBAE'
@@ -508,7 +508,8 @@ const DECODER = {
 
 class Linked {
     _mod = {};
-    /*   Define chars (Interface)   */
+
+    /* ========== Define properties: get symbol (Interface) ========== */
 
     // Types of symbols
     get isSpaceSymbol() {}
@@ -517,10 +518,8 @@ class Linked {
     get isDotNumberSymbol() {}
     get isMathSignSymbol() {}
     get isLetterSymbol() {}
-    get isApostropheUnderModeSymbol() {}
-    get isAccentMarkUnderModeSymbol() {}
 
-    // Mod symbols (get)
+    // Mod symbols
     get isTraditionalNumberModeSymbol() {}
     get isAntoineNumberModeSymbol() {}
     get isCapitalModeSymbol() {}
@@ -528,13 +527,18 @@ class Linked {
     get isSubscriptModeSymbol() {}
     get isCurrencyModeSymbol() {}
     get isSymbolModeSymbol() {}
-    // get isDoubleDash() {}
 
-    // Disabled mod symbols (get)
+    // Under-mod symbols
+    get isApostropheUnderModeSymbol() {}
+    get isAccentMarkUnderModeSymbol() {}
+
+    // Disabled mod symbols
     get isDisableTraditionalNumberModeSymbol() {}
     get isDisableAntoineNumberModeSymbol() {}
 
-    // Mod symbols (set)
+    /* ========== Define properties: set symbol ========== */
+
+    // Mod symbols
     set isTraditionalNumberModeSymbol(bool) {
         if (this.isTraditionalNumberModeSymbol) this._mod.TRADITIONAL_NUMBER = bool;
         return this.isTraditionalNumberModeSymbol;
@@ -563,6 +567,8 @@ class Linked {
         if (this.isSymbolModeSymbol) this._mod.SYMBOL = bool;
         return this.isSymbolModeSymbol;
     }
+
+    // Under-mod symbols
     set isApostropheUnderModeSymbol(bool) {
         if (this.isApostropheUnderModeSymbol) this._mod.APOSTROPHE = bool;
         return this.isApostropheUnderModeSymbol;
@@ -572,7 +578,7 @@ class Linked {
         return this.isAccentMarkUnderModeSymbol;
     }
 
-    // Disabled mod symbols (set)
+    // Disabled mod symbols
     set isDisableTraditionalNumberModeSymbol(bool) {
         if (this.isDisableTraditionalNumberModeSymbol) if (!bool) delete this._mod.TRADITIONAL_NUMBER;
         return this.isDisableTraditionalNumberModeSymbol;
@@ -582,7 +588,7 @@ class Linked {
         return this.isDisableAntoineNumberModeSymbol;
     }
 
-    /*   Define properties   */
+    /* ========== Define properties: get position for symbol ========== */
 
     // Space
     get hasSpaceAtLeft() {
@@ -674,13 +680,43 @@ class Linked {
         return (this.last?.last?.char == this.last?.char == this.char) || (this.last?.char == this.char == this.next?.char) || (this.char == this.next?.char == this.next?.next?.char);
     }
 
+    /* ========== Define properties: get position for under-mod symbol ========== */
 
-    // // Dash
-    // get hasDoubleDashAtLeft() {
-    //     return this.left?.isDoubleDash ?? false;
-    // }
+    // Apostrophe
+    get hasApostropheAtLeft() {
+        return this.last?.isApostropheUnderModeSymbol ?? false;
+    }
+    get hasApostropheAtRight() {
+        return this.next?.isApostropheUnderModeSymbol ?? false;
+    }
+    get hasApostropheOnlyAtLeft() {
+        return this.hasApostropheAtLeft && !this.hasApostropheAtRight;
+    }
+    get hasApostropheOnlyAtRight() {
+        return !this.hasApostropheAtLeft && this.hasApostropheAtRight;
+    }
+    get betweenApostrophes() {
+        return this.hasApostropheAtLeft && this.hasApostropheAtRight;
+    }
 
-    /*   Define mods   */
+    // Accent Mark
+    get hasAccentMarkAtLeft() {
+        return this.last?.isAccentMarkUnderModeSymbol ?? false;
+    }
+    get hasAccentMarkAtRight() {
+        return this.next?.isAccentMarkUnderModeSymbol ?? false;
+    }
+    get hasAccentMarkOnlyAtLeft() {
+        return this.hasAccentMarkAtLeft && !this.hasAccentMarkAtRight;
+    }
+    get hasAccentMarkOnlyAtRight() {
+        return !this.hasAccentMarkAtLeft && this.hasAccentMarkAtRight;
+    }
+    get betweenAccentMarks() {
+        return this.hasAccentMarkAtLeft && this.hasAccentMarkAtRight;
+    }
+
+    /* ========== Define properties: on mod ========== */
 
     // Global mods
     get onGlobalTraditionalNumberMode() {
