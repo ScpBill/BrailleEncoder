@@ -186,8 +186,8 @@ const ENCODER = {
                                 ? this.next?.char == '⠏' ? '' : 'cc'
                                 :                               'cc'
         },  '⠲': function() { return this.type == 'EBAE'
-                                ? this.next?.isTraditionalNumberModeSymbol || this.onAccentMarkUnderMode ? '$' : this._ ? '.' : 'dd'
-                                : this.inEllipsis                                                        ? '.' : this._ ? '.' : 'dd'
+                                ? this.hasTraditionalNumberModeSymbolAtRight || this.onAccentMarkUnderMode ? '$' : this._ ? '.' : 'dd'
+                                : this.inEllipsis                                                          ? '.' : this._ ? '.' : 'dd'
         },  '⠢': function() { return 'en'
         },  '⠖': function() { return 'ff'
         },  '⠶': function() { return this.type == 'EBAE'
@@ -198,8 +198,8 @@ const ENCODER = {
                                 ? this.last?.char == this.char ? '*' : this.char == this.next?.char ? '' : 'in'
                                 : this.onSymbolMode            ? '*' :                                     'in'
         },  '⠴': function() { return this.type == 'EMAE'
-                                ?                                this.next && (this.next.isCapitalModeSymbol = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
-                                : this.last?.char == '⠨' ? '%' : this.next && (this.next.isCapitalModeSymbol = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
+                                ?                                (this.hasCapitalModeSymbolAtRight = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
+                                : this.last?.char == '⠨' ? '%' : (this.hasCapitalModeSymbolAtRight = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
 
         // { 3, 3-6, 6 } [decade]
         },  '⠄': function() { return this.type == 'EBAE'  // TODO: termination sign => onCapitalMode  // apostrophe
@@ -220,8 +220,8 @@ const ENCODER = {
         },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
         },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // ENABLE: TRADITIONAL_NUMBER
         },  '⠨': function() { return this.type == 'EBAE'
-                                ? this.hasLetterAtRight ? '\u0300' : this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.next?.isTraditionalNumberModeSymbol ? ',' : ''  // diacritical `
-                                : this.hasLetterAtRight ? '\u0300' : this._                                                                                                             ? '.' : ''  // diacritical `
+                                ? this.hasLetterAtRight ? '\u0300' : this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.hasTraditionalNumberModeSymbolAtRight? ',' : ''  // diacritical `
+                                : this.hasLetterAtRight ? '\u0300' : this._                                                                                                        ? '.' : ''  // diacritical `
         },  '⠸': function() { return undefined
         },  '⠐': function() { return ''  // ENABLE: SYMBOL
         },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER
