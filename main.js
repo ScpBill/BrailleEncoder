@@ -313,7 +313,6 @@ const ENCODER = {
             },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
             },
         },
-        DEFAULT: ENCODER.en.EBAE,
     }, 
     ru: {
         DEFAULT: {
@@ -414,6 +413,9 @@ const ENCODER = {
         },
     }
 }
+ENCODER.en.DEFAULT = ENCODER.en.EBAE;
+
+
 const DECODER = {
     en: {
             'a': function() { return '⠁'
@@ -1147,7 +1149,7 @@ class Braille {
      * @param {Object} options { autocorrect, shorten_syllables, shorten_words, advanced }
      * @returns letters text
      */
-    static encode(braille_text, language='en', options={}, debug=(()=>''), type='DEFAULT') {
+    static encode(braille_text, language='en', type='DEFAULT', options={}, debug=(()=>'')) {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
 
         const list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, type, options, debug));
@@ -1163,7 +1165,7 @@ class Braille {
      * @param {Object} options { autocorrect, shorten_syllables, shorten_words, advanced }
      * @returns braille text
      */
-    static decode(letters_text, language='en', options={}, debug=(()=>''), type='DEFAULT') {
+    static decode(letters_text, language='en', type='DEFAULT', options={}, debug=(()=>'')) {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
 
         let list = [];
