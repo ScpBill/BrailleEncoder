@@ -15,18 +15,15 @@ const ENCODER = {
                     TRADITIONAL_NUMBERS: ['⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚'],
                     ANTOINE_NUMBERS: ['⠡', '⠣', '⠩', '⠹', '⠱', '⠫', '⠻', '⠳', '⠪'],
                 },
-                ENABLE_MODE: {
+                MODE: {
                     TRADITIONAL_NUMBER: '⠼',
                     ANTOINE_NUMBER: '⠠',
+                    LETTER: '⠰',
                     CAPITAL: '⠨',
                     SUPERSCRIPT: '⠈',
                     SUBSCRIPT: '⠢',
                     CURRENCY: '⠘',
                     SYMBOL: '⠐',
-                },
-                DISABLE_MODE: {
-                    TRADITIONAL_NUMBER: '⠰',
-                    ANTOINE_NUMBER: '⠰',
                 },
             
             // 1-2-4-5 => (a-j||1-0)
@@ -82,7 +79,7 @@ const ENCODER = {
             },  '⠆': function() { return ';'
             },  '⠒': function() { return this.onGlobalAntoineNumberMode ? '\u00F7' : ':'  // ÷
             },  '⠲': function() { return this.onGlobalAntoineNumberMode ? '/'      : '.'
-            },  '⠢': function() { return this.onGlobalAntoineNumberMode ? ''       : '?'  // ENABLE: SUBSCRIPT  //TODO: (start) emphasis
+            },  '⠢': function() { return this.onGlobalAntoineNumberMode ? ''       : '?'  // MODE: SUBSCRIPT  //TODO: (start) emphasis
             },  '⠖': function() { return this.onGlobalAntoineNumberMode ? '+'      : '!'
             },  '⠶': function() { return this.onGlobalAntoineNumberMode ? '='      : '"'
             },  '⠦': function() { return '('
@@ -92,19 +89,19 @@ const ENCODER = {
             // { 3, 3-6, 6 } [decade]
             },  '⠄': function() { return this.onGlobalAntoineNumberMode ? '\u002E' : "'"  // .  // TODO: The space in numbers between thousands.
             },  '⠤': function() { return this.onGlobalAntoineNumberMode ? '-'      : '\u2013'  // –
-            },  '⠠': function() { return ''  // ENABLE: ANTOINE_NUMBER
+            },  '⠠': function() { return ''  // MODE: ANTOINE_NUMBER
             
             // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
-            },  '⠈': function() { return ''  // ENABLE: SUPERSCRIPT
-            },  '⠘': function() { return ''  // ENABLE: CURRENCY
+            },  '⠈': function() { return ''  // MODE: SUPERSCRIPT
+            },  '⠘': function() { return ''  // MODE: CURRENCY
             },  '⠌': function() { return this.onGlobalAntoineNumberMode ? '/' : 'ì'
             },  '⠜': function() { return this.onGlobalAntoineNumberMode ? '@' : this.onCapitalMode ? 'Ä|Æ' : 'ä|æ'  // TODO: Also marks the end of a verse.
             },  '⠬': function() { return this.onGlobalAntoineNumberMode ? '*' : (this.onSymbolMode ? (this.next?.next?.char == this.next?.char == '⠬' ? '‱' : this.next?.char == '⠬' ? '‰' : '%') : ((this.last?.last?.onSymbolMode && this.last?.last?.char == this.last?.char == '⠬') || (this.last?.onSymbolMode && this.last?.char == '⠬')) ? '' : undefined) ?? 'ò'  // TODO: Used to mark a footnote or endnote.
-            },  '⠼': function() { return this.onGlobalAntoineNumberMode ? '0' : '#'  // ENABLE: TRADITIONAL_NUMBER
-            },  '⠨': function() { return ''  // ENABLE: CAPITAL
+            },  '⠼': function() { return this.onGlobalAntoineNumberMode ? '0' : '#'  // MODE: TRADITIONAL_NUMBER
+            },  '⠨': function() { return ''  // MODE: CAPITAL
             },  '⠸': function() { return '\u0300'  // diacritical `
-            },  '⠐': function() { return ''  // ENABLE: SYMBOL
-            },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER && ANTOINE_NUMBER
+            },  '⠐': function() { return ''  // MODE: SYMBOL
+            },  '⠰': function() { return undefined  // MODE: LETTER
             
             // { 0, 1-2-3-4-5-6 } => (space)
             },  ' ': function() { return ' '
@@ -122,14 +119,12 @@ const ENCODER = {
                     APOSTROPHE: '⠠',
                     ACCENT_MARK: '⠈',
                 },
-                ENABLE_MODE: {
+                MODE: {
                     TRADITIONAL_NUMBER: '⠼',
+                    LETTER: '⠰',
                     SYMBOL: '⠐',
                     CAPITAL: '⠠',
                 },
-                DISABLE_MODE: {
-                    TRADITIONAL_NUMBER: '⠰',
-                }
             
             // 1-2-4-5 => (a-j)
             },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
@@ -194,7 +189,7 @@ const ENCODER = {
             // { 3, 3-6, 6 } [decade]
             },  '⠄': function() { return this.inEllipsis ? '.' : "'"  // TODO: termination sign => onCapitalMode  // APOSTROPHE
             },  '⠤': function() { return this.char == this?.next.char == this?.next?.next.char == this?.next?.next?.next.char ? this.last?.last?.last?.last?.symbol() == '—' && this.last?.last?.last?.char == this.last?.last?.char == this.last?.char == this.char || this.last?.char != this.char ? '—' : '' : this.next?.char == this.char ? this.last?.last?.last?.last?.symbol() == '—' && this.last?.last?.last?.char == this.last?.last?.char == this.last?.char == this.char || this.last?.char != this.char ? '–' : '' : '-'
-            },  '⠠': function() { return ''  // ENABLE: CAPITAL
+            },  '⠠': function() { return ''  // MODE: CAPITAL
 
             // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
             },  '⠈': function() { return this.hasLetterAtRight ^ this.next?.char == '⠎' ? '\u0300' : ''  // diacritical `
@@ -202,11 +197,11 @@ const ENCODER = {
             },  '⠌': function() { return this._adv && !this.betweenSpaces                                        ? 'st'  : '/'  // TODO
             },  '⠜': function() { return 'ar'
             },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
-            },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // ENABLE: TRADITIONAL_NUMBER
+            },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // MODE: TRADITIONAL_NUMBER
             },  '⠨': function() { return this.hasLetterAtRight ? '\u0300' : this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.hasTraditionalNumberModeSymbolAtRight? ',' : ''  // diacritical `
             },  '⠸': function() { return undefined
-            },  '⠐': function() { return ''  // ENABLE: SYMBOL
-            },  '⠰': function() { return ''  // DISABLE: TRADITIONAL_NUMBER
+            },  '⠐': function() { return ''  // MODE: SYMBOL
+            },  '⠰': function() { return ''  // MODE: LETTER
 
             // { 0, 1-2-3-4-5-6 } => (space)
             },  ' ': function() { return ' '
@@ -222,14 +217,12 @@ const ENCODER = {
                     APOSTROPHE: '⠠',
                     ACCENT_MARK: '⠈',
                 },
-                ENABLE_MODE: {
+                MODE: {
                     TRADITIONAL_NUMBER: '⠼',
+                    LETTER: '⠰',
                     SYMBOL: '⠐',
                     CAPITAL: '⠠',
                 },
-                DISABLE_MODE: {
-                    TRADITIONAL_NUMBER: '⠰',
-                }
             
             // 1-2-4-5 => (a-j)
             },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
@@ -294,7 +287,7 @@ const ENCODER = {
             // { 3, 3-6, 6 } [decade]
             },  '⠄': function() { return "'"  // TODO: termination sign => onCapitalMode  // APOSTROPHE
             },  '⠤': function() { return this.onCapitalMode ? this.last?.onSymbolMode ? '—' : '–': '-'
-            },  '⠠': function() { return ''  // ENABLE: CAPITAL
+            },  '⠠': function() { return ''  // MODE: CAPITAL
 
             // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
             },  '⠈': function() { return this.hasLetterAtRight ^ this.next?.char == '⠎' ? '\u0300' : ''  // diacritical `
@@ -302,11 +295,11 @@ const ENCODER = {
             },  '⠌': function() { return this._adv && !this.betweenSpaces                                        ? 'st'  : '/'  // TODO
             },  '⠜': function() { return this.onSymbolMode ? ')' : 'ar'
             },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
-            },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // ENABLE: TRADITIONAL_NUMBER
+            },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // MODE: TRADITIONAL_NUMBER
             },  '⠨': function() { return this.hasLetterAtRight ? '\u0300' : this._ ? '.' : ''  // diacritical `
             },  '⠸': function() { return undefined
-            },  '⠐': function() { return ''  // ENABLE: SYMBOL
-            },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER
+            },  '⠐': function() { return ''  // MODE: SYMBOL
+            },  '⠰': function() { return undefined  // MODE: LETTER
 
             // { 0, 1-2-3-4-5-6 } => (space)
             },  ' ': function() { return ' '
@@ -321,13 +314,11 @@ const ENCODER = {
                 ANY: {
                     TRADITIONAL_NUMBERS: ['⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚'],
                 },
-                ENABLE_MODE: {
+                MODE: {
                     TRADITIONAL_NUMBER: '⠼',
+                    LETTER: '⠰',
                     CAPITAL: '⠐',
                 },
-                DISABLE_MODE: {
-                    TRADITIONAL_NUMBER: '⠰',
-                }
             
             //  1-2-4-5 => (a-j)
             },  '⠁': function() { return this.onTraditionalNumberMode ? '1' : this.onCapitalMode ? 'А' : 'а'
@@ -639,6 +630,7 @@ class Linked {
     // Mod symbols
     get isTraditionalNumberModeSymbol() {}
     get isAntoineNumberModeSymbol() {}
+    get isLetterModeSymbol() {}
     get isCapitalModeSymbol() {}
     get isSuperscriptModeSymbol() {}
     get isSubscriptModeSymbol() {}
@@ -648,10 +640,6 @@ class Linked {
     // Under-mod symbols
     get isApostropheUnderModeSymbol() {}
     get isAccentMarkUnderModeSymbol() {}
-
-    // Disabled mod symbols
-    get isDisableTraditionalNumberModeSymbol() {}
-    get isDisableAntoineNumberModeSymbol() {}
 
     /* ========== Define properties: get position for symbol ========== */
 
@@ -779,6 +767,23 @@ class Linked {
     }
     get betweenAntoineNumberModeSymbols() {
         return this.hasAntoineNumberModeSymbolAtLeft && this.hasAntoineNumberModeSymbolAtRight;
+    }
+
+    // Letter
+    get hasLetterModeSymbolAtLeft() {
+        return this.last?.isLetterModeSymbol ?? false;
+    }
+    get hasLetterModeSymbolAtRight() {
+        return this.right?.isLetterModeSymbol ?? false;
+    }
+    get hasLetterModeSymbolOnlyAtLeft() {
+        return this.hasLetterModeSymbolAtLeft && !this.hasLetterModeSymbolAtRight;
+    }
+    get hasLetterModeSymbolOnlyAtRight() {
+        return !this.hasLetterModeSymbolAtLeft && this.hasLetterModeSymbolAtRight;
+    }
+    get betweenLetterModeSymbols() {
+        return this.hasLetterModeSymbolAtLeft && this.hasLetterModeSymbolAtRight;
     }
 
     // Capital
@@ -913,6 +918,10 @@ class Linked {
         if (this.hasAntoineNumberModeSymbolAtRight) this._mod.ANTOINE_NUMBER = bool;
         return this.hasAntoineNumberModeSymbolAtRight;
     }
+    set hasLetterModeSymbolAtRight(bool) {
+        if (this.hasLetterModeSymbolAtRight) this._mod.LETTER = bool;
+        return this.hasLetterModeSymbolAtRight;
+    }
     set hasCapitalModeSymbolAtRight(bool) {
         if (this.hasCapitalModeSymbolAtRight) this._mod.CAPITAL = bool;
         return this.hasCapitalModeSymbolAtRight;
@@ -950,7 +959,7 @@ class Linked {
     get onGlobalTraditionalNumberMode() {
         if (this.isTraditionalNumberModeSymbol) {
             return true;
-        } else if (this.isDisableTraditionalNumberModeSymbol || !(this.isNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol)) {
+        } else if (this.isLetterModeSymbol || !(this.isNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol)) {
             return false;
         } else {
             return this.last?._mod?.TRADITIONAL_NUMBER ?? this.last?.onGlobalTraditionalNumberMode ?? false;
@@ -959,11 +968,14 @@ class Linked {
     get onGlobalAntoineNumberMode() {
         if (this.isAntoineNumberModeSymbol) {
             return true;
-        } else if (this.isDisableAntoineNumberModeSymbol || !this.isAntoineNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol) {
+        } else if (this.isLetterModeSymbol || !this.isAntoineNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol) {
             return false;
         } else {
             return this.last?._mod?.ANTOINE_NUMBER ?? this.last?.onGlobalAntoineNumberMode ?? false;
         }
+    }
+    get onGlobalLetterMode() {
+        
     }
 
     // Local mods
@@ -972,6 +984,9 @@ class Linked {
     }
     get onAntoineNumberMode() {
         return this.last?._mod?.ANTOINE_NUMBER ?? this.last?.isAntoineNumberModeSymbol ?? false;
+    }
+    get onLetterMode() {
+        return this.last?._mod?.LETTER ?? this.last?.isLetterModeSymbol ?? false;
     }
     get onCapitalMode() {
         return this.last?._mod?.CAPITAL ?? this.last?.isCapitalModeSymbol ?? false;
@@ -1053,25 +1068,28 @@ class LinkedBrailleSymbol extends Linked {
 
     // Mod symbols
     get isTraditionalNumberModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.TRADITIONAL_NUMBER ?? '⠼') == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.TRADITIONAL_NUMBER ?? '⠼') == this.char;
     }
     get isAntoineNumberModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.ANTOINE_NUMBER ?? undefined) == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.ANTOINE_NUMBER ?? undefined) == this.char;
+    }
+    get isLetterModeSymbol() {
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.LETTER ?? undefined) == this.char;
     }
     get isCapitalModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.CAPITAL ?? undefined) == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.CAPITAL ?? undefined) == this.char;
     }
     get isSuperscriptModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.SUPERSCRIPT ?? undefined) == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.SUPERSCRIPT ?? undefined) == this.char;
     }
     get isSubscriptModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.SUBSCRIPT ?? undefined) == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.SUBSCRIPT ?? undefined) == this.char;
     }
     get isCurrencyModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.CURRENCY ?? undefined) == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.CURRENCY ?? undefined) == this.char;
     }
     get isSymbolModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.ENABLE_MODE?.SYMBOL ?? undefined) == this.char;
+        return (ENCODER[this.#lang][this.#type][UNITS]?.MODE?.SYMBOL ?? undefined) == this.char;
     }
 
     // Under-mod symbols
@@ -1080,14 +1098,6 @@ class LinkedBrailleSymbol extends Linked {
     }
     get isAccentMarkUnderModeSymbol() {
         return (ENCODER[this.#lang][this.#type][UNITS]?.ANY?.ACCENT_MARK ?? undefined) == this.char;
-    }
-
-    // Disabled mod symbols
-    get isDisableTraditionalNumberModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.DISABLE_MODE?.TRADITIONAL_NUMBER ?? undefined) == this.char;
-    }
-    get isDisableAntoineNumberModeSymbol() {
-        return (ENCODER[this.#lang][this.#type][UNITS]?.DISABLE_MODE?.ANTOINE_NUMBER ?? undefined) == this.char;
     }
 }
 
