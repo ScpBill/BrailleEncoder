@@ -72,6 +72,7 @@ const ENCODER = {
                     TRADITIONAL_NUMBER: '⠰',
                     ANTOINE_NUMBER: '⠰',
                 },
+            
             // 1-2-4-5 => (a-j||1-0)
             },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
             },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
@@ -83,6 +84,7 @@ const ENCODER = {
             },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
             },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
             },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
+            
             // 1-2-3-4-5 => (k-t)
             },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
             },  '⠇': function() { return this.onCapitalMode ? 'L' : this.onCurrencyMode ? '£' : 'l'
@@ -94,6 +96,7 @@ const ENCODER = {
             },  '⠗': function() { return this.onCapitalMode ? 'R' : this.onSymbolMode ? '®' : 'r'
             },  '⠎': function() { return this.onCapitalMode ? 'S' : this.onCurrencyMode ? '$' : 's'
             },  '⠞': function() { return this.onCapitalMode ? 'T' : this.onSymbolMode ? '™' : 't'
+            
             // 1-2-3-4-5-6 => (u-ù)
             },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
             },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
@@ -105,6 +108,7 @@ const ENCODER = {
             },  '⠷': function() { return this.onCapitalMode ? 'À' : 'à'
             },  '⠮': function() { return this.onCapitalMode ? 'È' : 'è'
             },  '⠾': function() { return this.onCapitalMode ? 'Ù' : 'ù'
+            
             // 1-2-4-5-6 => (â-w)
             },  '⠡': function() { return this.onGlobalAntoineNumberMode ? '1' : this.onCapitalMode ? 'Â' : 'â'
             },  '⠣': function() { return this.onGlobalAntoineNumberMode ? '2' : this.onCapitalMode ? 'Ê' : 'ê'
@@ -116,6 +120,7 @@ const ENCODER = {
             },  '⠳': function() { return this.onGlobalAntoineNumberMode ? '8' : this.onCapitalMode ? 'Ü' : 'ü'  // TODO: onCurrencyMode => thought bubble
             },  '⠪': function() { return this.onGlobalAntoineNumberMode ? '9' : this.onCapitalMode ? 'Ö|Œ' : 'ö|œ'
             },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
+            
             // 2-3-5-6 [down shift] => (signs)
             },  '⠂': function() { return ','
             },  '⠆': function() { return ';'
@@ -127,10 +132,12 @@ const ENCODER = {
             },  '⠦': function() { return '('
             },  '⠔': function() { return this.onGlobalAntoineNumberMode ? '\u00D7' : undefined  // ×  // TODO: (end) emphasis
             },  '⠴': function() { return ')'
+            
             // { 3, 3-6, 6 } [decade]
             },  '⠄': function() { return this.onGlobalAntoineNumberMode ? '\u002E' : "'"  // .  // TODO: The space in numbers between thousands.
             },  '⠤': function() { return this.onGlobalAntoineNumberMode ? '-'      : '\u2013'  // –
             },  '⠠': function() { return ''  // ENABLE: ANTOINE_NUMBER
+            
             // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
             },  '⠈': function() { return ''  // ENABLE: SUPERSCRIPT
             },  '⠘': function() { return ''  // ENABLE: CURRENCY
@@ -142,6 +149,7 @@ const ENCODER = {
             },  '⠸': function() { return '\u0300'  // diacritical `
             },  '⠐': function() { return ''  // ENABLE: SYMBOL
             },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER && ANTOINE_NUMBER
+            
             // { 0, 1-2-3-4-5-6 } => (space)
             },  ' ': function() { return ' '
             },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
@@ -166,6 +174,7 @@ const ENCODER = {
                 DISABLE_MODE: {
                     TRADITIONAL_NUMBER: '⠰',
                 }
+            
             // 1-2-4-5 => (a-j)
             },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
             },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
@@ -265,6 +274,7 @@ const ENCODER = {
                 DISABLE_MODE: {
                     TRADITIONAL_NUMBER: '⠰',
                 }
+            
             // 1-2-4-5 => (a-j)
             },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
             },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
@@ -363,6 +373,8 @@ const ENCODER = {
                 DISABLE_MODE: {
                     TRADITIONAL_NUMBER: '⠰',
                 }
+            
+            //  1-2-4-5 => (a-j)
             },  '⠁': function() { return this.onTraditionalNumberMode ? '1' : this.onCapitalMode ? 'А' : 'а'
             },  '⠃': function() { return this.onTraditionalNumberMode ? '2' : this.onCapitalMode ? 'Б' : 'б'
             },  '⠉': function() { return this.onTraditionalNumberMode ? '3' : this.onCapitalMode ? 'Ц' : 'ц'
@@ -373,6 +385,8 @@ const ENCODER = {
             },  '⠓': function() { return this.onTraditionalNumberMode ? '8' : this.onCapitalMode ? 'Х' : 'х'
             },  '⠊': function() { return this.onTraditionalNumberMode ? '9' : this.onCapitalMode ? 'И' : 'и'
             },  '⠚': function() { return this.onTraditionalNumberMode ? '0' : this.onCapitalMode ? 'Ж' : 'ж'
+
+            // 1-2-3-4-5 => (k-t)
             },  '⠅': function() { return this.onCapitalMode ? 'К' : 'к'
             },  '⠇': function() { return this.onCapitalMode ? 'Л' : 'л'
             },  '⠍': function() { return this.onCapitalMode ? 'М' : 'м'
@@ -383,9 +397,10 @@ const ENCODER = {
             },  '⠗': function() { return this.onCapitalMode ? 'Р' : 'р'
             },  '⠎': function() { return this.onCapitalMode ? 'С' : 'с'
             },  '⠞': function() { return this.onCapitalMode ? 'Т' : 'т'
+
+            // 1-2-4-5-6 => (u-w)
             },  '⠥': function() { return this.onCapitalMode ? 'У' : 'У'
             },  '⠧': function() { return undefined
-            },  '⠺': function() { return this.onCapitalMode ? 'В' : 'в'
             },  '⠭': function() { return this.onCapitalMode ? 'Щ' : 'щ'
             },  '⠽': function() { return undefined
             },  '⠵': function() { return this.onCapitalMode ? 'З' : 'з'
@@ -394,6 +409,8 @@ const ENCODER = {
             },  '⠷': function() { return this.onCapitalMode ? 'Ъ' : 'ъ'
             },  '⠮': function() { return this.onCapitalMode ? 'Ы' : 'ы'
             },  '⠾': function() { return this.onCapitalMode ? 'Ь' : 'ь'
+
+            // 1-2-4-5-6
             },  '⠡': function() { return this.onCapitalMode ? 'Ё' : 'ё'
             },  '⠣': function() { return '('
             },  '⠩': function() { return undefined
@@ -403,6 +420,9 @@ const ENCODER = {
             },  '⠻': function() { return undefined
             },  '⠳': function() { return this.onCapitalMode ? 'Ю' : 'ю'
             },  '⠪': function() { return this.onCapitalMode ? 'Э' : 'э'
+            },  '⠺': function() { return this.onCapitalMode ? 'В' : 'в'
+
+            // 2-3-4-5 [down shift] => (signs)
             },  '⠂': function() { return ','
             },  '⠆': function() { return ';'
             },  '⠒': function() { return ':'
@@ -413,20 +433,27 @@ const ENCODER = {
             },  '⠦': function() { return '«'
             },  '⠔': function() { return undefined
             },  '⠴': function() { return '»'
-            },  '⠌': function() { return '/'
-            },  '⠬': function() { return undefined
-            },  '⠼': function() { return '#'  // Enable number mode
-            },  '⠜': function() { return ')'
+
+            // { 3, 3-6, 6 } [decade]
             },  '⠄': function() { return "'"
             },  '⠤': function() { return this._adv && !this.betweenSpaces                 ? 'com' : '-'
+            },  '⠠': function() { return undefined
+
+            // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
             },  '⠈': function() { return '`'
             },  '⠘': function() { return undefined  // Disable shift mode (ru)
+            },  '⠌': function() { return '/'
+            },  '⠜': function() { return ')'
+            },  '⠬': function() { return undefined
+            },  '⠼': function() { return '#'  // Enable number mode
+            },  '⠨': function() { return this.betweenNumbers && this.onTraditionalNumberMode ? ',' : '\u0340'
             },  '⠸': function() { return undefined
             },  '⠐': function() { return undefined  // Enable shift mode (ru)
-            },  '⠨': function() { return this.betweenNumbers && this.onTraditionalNumberMode ? ',' : '\u0340'
             },  '⠰': function() { return undefined  // Disable number mode
-            },  '⠠': function() { return undefined
+
+            // { 0, 1-2-3-4-5-6 } => (space)
             },  ' ': function() { return ' '
+            },  '⠿': function() { return undefined
             },
         },
     }
