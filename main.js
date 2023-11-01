@@ -7,50 +7,6 @@ const ALL_WORDS = {
 }
 
 
-const MODES = {
-    fr: {
-        enable: {
-            TRADITIONAL_NUMBER: '⠼',
-            ANTOINE_NUMBER: '⠠',
-            CAPITAL: '⠨',
-            SUPERSCRIPT: '⠈',
-            SUBSCRIPT: '⠢',
-            CURRENCY: '⠘',
-            SYMBOL: '⠐',
-        },
-        disable: {
-            TRADITIONAL_NUMBER: '⠰',
-            ANTOINE_NUMBER: '⠰',
-        },
-        chars: {
-            DOT_NUMBER: undefined,
-            NUMBER: ''
-        }
-    },
-    en: {
-        enable: {
-            TRADITIONAL_NUMBER: '⠼',
-            CAPITAL: '⠠',
-            SYMBOL: '⠐',
-        },
-        disable: {
-            TRADITIONAL_NUMBER: '⠰',
-        },
-        chars: {
-            APOSTROPHE: '⠄',
-            ACCENT_MARK: '⠈',
-        }
-    },
-    ru: {
-        enable: {
-            TRADITIONAL_NUMBER: '⠼',
-            CAPITAL: '⠠',
-        },
-        disable: {
-            TRADITIONAL_NUMBER: '⠰',
-        }
-    }
-}
 const ENCODER = {
     fr: {
         DEFAULT: {
