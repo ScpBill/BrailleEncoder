@@ -1127,10 +1127,14 @@ class MinimumLinkedLettersWord extends Linked {
 
 
 class LinkedLettersWord extends MinimumLinkedLettersWord {
+    #lang; #type;
     constructor(word, language='en', type='DEFAULT', {autocorrect=true, shorten_syllables=false, shorten_words=false, advanced=false}, debug=(()=>'')) {
         super(word);
-        this.lang = language.toLowerCase();
-        this.type = type.toUpperCase();
+        this.#lang = language.toLowerCase();
+        this.#type = type.toUpperCase();
+        if (!ENCODER[this.#lang]?.[this.#type]) {
+            throw new TypeError('Incorrect language or type entered');
+        };
         this._adv = advanced;
         this._ac = autocorrect;
         this._ss = shorten_syllables;
@@ -1147,12 +1151,7 @@ class LinkedLettersWord extends MinimumLinkedLettersWord {
 
     // Get symbol
     symbol() {
-        let word = ENCODER[this.lang]?.[this.type]?.[this.word];
-        if (word) {
-            return word.call(this) ?? (this._debug(this.word));
-        } else {
-            throw new TypeError('Incorrect language or type entered');
-        }
+        return ENCODER[this.#lang][this.#type][this.char].call(this) ?? (this._debug(this.char));
     }
 }
 
@@ -1165,9 +1164,8 @@ class Braille {
      * @param {Object} options { autocorrect, shorten_syllables, shorten_words, advanced }
      * @returns letters text
      */
-    static encode(braille_text, language='en', options={}, debug=(()=>''), type='EBAE') {
+    static encode(braille_text, language='en', options={}, debug=(()=>''), type='DEFAULT') {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
-        if (language === 'en' && !['EBAE', 'UEB'].includes(type.toUpperCase())) throw ReferenceError('Type of english language must be EBAE or UEB');
 
         const list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, options, debug, type.toUpperCase()));
         
@@ -1182,9 +1180,8 @@ class Braille {
      * @param {Object} options { autocorrect, shorten_syllables, shorten_words, advanced }
      * @returns braille text
      */
-    static decode(letters_text, language='en', options={}, debug=(()=>''), type='EBAE') {
+    static decode(letters_text, language='en', options={}, debug=(()=>''), type='DEFAULT') {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
-        if (language === 'en' && !['EBAE', 'UEB'].includes(type.toUpperCase())) throw ReferenceError('Type of english language must be EBAE or UEB');
 
         let list = [];
         if (!options.shorten_syllables && !options.shorten_words) {
