@@ -118,6 +118,7 @@ const ENCODER = {
                     LETTERS: ['⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚', '⠅', '⠇', '⠍', '⠝', '⠕', '⠏', '⠟', '⠗', '⠎', '⠞', '⠥', '⠧', '⠭', '⠽', '⠵', '⠺'],
                     APOSTROPHE: '⠠',
                     ACCENT_MARK: '⠈',
+                    EMPHASIS: '⠨',
                 },
                 MODE: {
                     TRADITIONAL_NUMBER: '⠼',
@@ -127,35 +128,35 @@ const ENCODER = {
                 },
             
             // 1-2-4-5 => (a-j)
-            },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
-            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
-            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : 'c'
-            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
-            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : 'e'
-            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
-            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
-            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
-            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
-            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
+            },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode || this.onGlobalCapitalMode ? 'A' : 'a'
+            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode || this.onGlobalCapitalMode ? 'B' : 'b'
+            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode || this.onGlobalCapitalMode ? 'C' : 'c'
+            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode || this.onGlobalCapitalMode ? 'D' : 'd'
+            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode || this.onGlobalCapitalMode ? 'E' : 'e'
+            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode || this.onGlobalCapitalMode ? 'F' : 'f'
+            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode || this.onGlobalCapitalMode ? 'G' : 'g'
+            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode || this.onGlobalCapitalMode ? 'H' : 'h'
+            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode || this.onGlobalCapitalMode ? 'I' : 'i'
+            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode || this.onGlobalCapitalMode ? 'J' : 'j'
 
             // 1-2-3-4-5 => (k-t)
-            },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
-            },  '⠇': function() { return this.onCapitalMode ? 'L' : 'l'
-            },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
-            },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
-            },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
-            },  '⠏': function() { return this.last?.onAccentMarkUnderMode && this.last?.char == '⠒' ? '%' : this.onCapitalMode ? 'P' : 'p'
-            },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
-            },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
-            },  '⠎': function() { return (this.hasApostropheAtRight = false) ? '§' : this.onCapitalMode ? 'S' : 's'
-            },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
+            },  '⠅': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'K' : 'k'
+            },  '⠇': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'L' : 'l'
+            },  '⠍': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'M' : 'm'
+            },  '⠝': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'N' : 'n'
+            },  '⠕': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'O' : 'o'
+            },  '⠏': function() { return this.last?.onAccentMarkUnderMode && this.last?.char == '⠒' ? '%' : this.onCapitalMode || this.onGlobalCapitalMode ? 'P' : 'p'
+            },  '⠟': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'Q' : 'q'
+            },  '⠗': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'R' : 'r'
+            },  '⠎': function() { return (this.hasApostropheAtRight = false) ? '§' :                        this.onCapitalMode || this.onGlobalCapitalMode ? 'S' : 's'
+            },  '⠞': function() { return                                                                    this.onCapitalMode || this.onGlobalCapitalMode ? 'T' : 't'
 
             // 1-2-4-5-6 => (u-w)
-            },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
-            },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
-            },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
-            },  '⠽': function() { return this.onCapitalMode ? 'Y' : 'y'
-            },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
+            },  '⠥': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'U' : 'u'
+            },  '⠧': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'V' : 'v'
+            },  '⠭': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'X' : 'x'
+            },  '⠽': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'Y' : 'y'
+            },  '⠵': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'Z' : 'z'
             },  '⠯': function() { return this.onAccentMarkUnderMode ? '&' : 'and'
             },  '⠿': function() { return 'for'
             },  '⠷': function() { return 'of'
@@ -172,7 +173,7 @@ const ENCODER = {
             },  '⠻': function() { return 'er'
             },  '⠳': function() { return 'ou' 
             },  '⠪': function() { return 'ow' 
-            },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
+            },  '⠺': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'W' : 'w'
 
             // 2-3-4-5 [down shift] => (signs)
             },  '⠂': function() { return this.onSymbolMode ? '\u3003' : 'ea'  // 〃
@@ -198,7 +199,7 @@ const ENCODER = {
             },  '⠜': function() { return 'ar'
             },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
             },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // MODE: TRADITIONAL_NUMBER
-            },  '⠨': function() { return this.hasLetterAtRight ? '\u0300' : this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.hasTraditionalNumberModeSymbolAtRight? ',' : ''  // diacritical `
+            },  '⠨': function() { return this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.hasTraditionalNumberModeSymbolAtRight? ',' : ''  // EMPHASIS
             },  '⠸': function() { return undefined
             },  '⠐': function() { return ''  // MODE: SYMBOL
             },  '⠰': function() { return ''  // MODE: LETTER
@@ -216,6 +217,7 @@ const ENCODER = {
                     LETTERS: ['⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊', '⠚', '⠅', '⠇', '⠍', '⠝', '⠕', '⠏', '⠟', '⠗', '⠎', '⠞', '⠥', '⠧', '⠭', '⠽', '⠵', '⠺'],
                     APOSTROPHE: '⠠',
                     ACCENT_MARK: '⠈',
+                    EMPHASIS: '⠨',
                 },
                 MODE: {
                     TRADITIONAL_NUMBER: '⠼',
@@ -225,35 +227,35 @@ const ENCODER = {
                 },
             
             // 1-2-4-5 => (a-j)
-            },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
-            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
-            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : 'c'
-            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
-            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : 'e'
-            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
-            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
-            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
-            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
-            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
+            },  '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode || this.onGlobalCapitalMode ? 'A' : 'a'
+            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode || this.onGlobalCapitalMode ? 'B' : 'b'
+            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode || this.onGlobalCapitalMode ? 'C' : 'c'
+            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode || this.onGlobalCapitalMode ? 'D' : 'd'
+            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode || this.onGlobalCapitalMode ? 'E' : 'e'
+            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode || this.onGlobalCapitalMode ? 'F' : 'f'
+            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode || this.onGlobalCapitalMode ? 'G' : 'g'
+            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode || this.onGlobalCapitalMode ? 'H' : 'h'
+            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode || this.onGlobalCapitalMode ? 'I' : 'i'
+            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode || this.onGlobalCapitalMode ? 'J' : 'j'
 
             // 1-2-3-4-5 => (k-t)
-            },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
-            },  '⠇': function() { return this.onCapitalMode ? 'L' : 'l'
-            },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
-            },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
-            },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
-            },  '⠏': function() { return this.onCapitalMode ? 'P' : 'p'
-            },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
-            },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
-            },  '⠎': function() { return this.onAccentMarkUnderMode ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
-            },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
+            },  '⠅': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'K' : 'k'
+            },  '⠇': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'L' : 'l'
+            },  '⠍': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'M' : 'm'
+            },  '⠝': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'N' : 'n'
+            },  '⠕': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'O' : 'o'
+            },  '⠏': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'P' : 'p'
+            },  '⠟': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'Q' : 'q'
+            },  '⠗': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'R' : 'r'
+            },  '⠎': function() { return this.onAccentMarkUnderMode ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode || this.onGlobalCapitalMode ? 'S' : 's'
+            },  '⠞': function() { return                                                                   this.onCapitalMode || this.onGlobalCapitalMode ? 'T' : 't'
 
             // 1-2-4-5-6 => (u-w)
-            },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
-            },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
-            },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
-            },  '⠽': function() { return this.onCapitalMode ? 'Y' : 'y'
-            },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
+            },  '⠥': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'U' : 'u'
+            },  '⠧': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'V' : 'v'
+            },  '⠭': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'X' : 'x'
+            },  '⠽': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'Y' : 'y'
+            },  '⠵': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'Z' : 'z'
             },  '⠯': function() { return 'and'
             },  '⠿': function() { return 'for'
             },  '⠷': function() { return 'of'
@@ -270,7 +272,7 @@ const ENCODER = {
             },  '⠻': function() { return this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '‡' : 'er' 
             },  '⠳': function() { return 'ou' 
             },  '⠪': function() { return 'ow' 
-            },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
+            },  '⠺': function() { return this.onCapitalMode || this.onGlobalCapitalMode ? 'W' : 'w'
 
             // 2-3-4-5 [down shift] => (signs)
             },  '⠂': function() { return this.onSymbolMode ? '\u3003' : 'ea'  // 〃
@@ -296,7 +298,7 @@ const ENCODER = {
             },  '⠜': function() { return this.onSymbolMode ? ')' : 'ar'
             },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
             },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // MODE: TRADITIONAL_NUMBER
-            },  '⠨': function() { return this.hasLetterAtRight ? '\u0300' : this._ ? '.' : ''  // diacritical `
+            },  '⠨': function() { return !this.hasLetterAtRight ? '.' : ''  // EMPHASIS
             },  '⠸': function() { return undefined
             },  '⠐': function() { return ''  // MODE: SYMBOL
             },  '⠰': function() { return undefined  // MODE: LETTER
@@ -640,6 +642,7 @@ class Linked {
     // Under-mod symbols
     get isApostropheUnderModeSymbol() {}
     get isAccentMarkUnderModeSymbol() {}
+    get isEmphasisUnderModeSymbol() {}
 
     /* ========== Define properties: get position for symbol ========== */
 
@@ -907,6 +910,23 @@ class Linked {
         return this.hasAccentMarkAtLeft && this.hasAccentMarkAtRight;
     }
 
+    // Emphasis
+    get hasEmphasisAtLeft() {
+        return this.last?.isEmphasisUnderModeSymbol ?? false;
+    }
+    get hasEmphasisAtRight() {
+        return this.next?.isEmphasisUnderModeSymbol ?? false;
+    }
+    get hasEmphasisOnlyAtLeft() {
+        return this.hasEmphasisAtLeft && !this.hasEmphasisAtRight;
+    }
+    get hasEmphasisOnlyAtRight() {
+        return !this.hasEmphasisAtLeft && this.hasEmphasisAtRight;
+    }
+    get betweenEmphases() {
+        return this.hasEmphasisAtLeft && this.hasEmphasisAtRight;
+    }
+
     /* ========== Define properties: set right [under-] mod symbols ========== */
 
     // Mods
@@ -952,30 +972,69 @@ class Linked {
         if (this.hasAccentMarkAtRight) this._mod.ACCENT_MARK = bool;
         return this.hasAccentMarkAtRight;
     }
+    set hasEmphasisAtRight(bool) {
+        if (this.hasEmphasisAtRight) this._mod.EMPHASIS = bool;
+        return this.hasEmphasisAtRight;
+    }
 
     /* ========== Define properties: on mod ========== */
 
     // Global mods
     get onGlobalTraditionalNumberMode() {
         if (this.isTraditionalNumberModeSymbol) {
-            return true;
+            return this.last?._mod?.TRADITIONAL_NUMBER ?? true;
         } else if (this.isLetterModeSymbol || !(this.isNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol)) {
             return false;
         } else {
-            return this.last?._mod?.TRADITIONAL_NUMBER ?? this.last?.onGlobalTraditionalNumberMode ?? false;
+            return this.last?.onGlobalTraditionalNumberMode ?? false;
         }
     }
     get onGlobalAntoineNumberMode() {
         if (this.isAntoineNumberModeSymbol) {
-            return true;
-        } else if (this.isLetterModeSymbol || !this.isAntoineNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol) {
+            return this.last?._mod?.ANTOINE_NUMBER ?? true;
+        } else if (this.isLetterModeSymbol || !(this.isAntoineNumberSymbol || this.isDotNumberSymbol || this.isMathSignSymbol)) {
             return false;
         } else {
-            return this.last?._mod?.ANTOINE_NUMBER ?? this.last?.onGlobalAntoineNumberMode ?? false;
+            return this.last?.onGlobalAntoineNumberMode ?? false;
         }
     }
     get onGlobalLetterMode() {
-        
+        if (this.isLetterModeSymbol) {
+            return this.last?._mod?.LETTER ?? true;
+        } else if (!this.isLetterSymbol) {
+            return false;
+        } else {
+            return this.last?.onGlobalLetterMode ?? false;
+        }
+    }
+    get onGlobalCapitalMode() {
+        if (this.isCapitalModeSymbol && this.next?.isCapitalModeSymbol && !this.last?.onGlobalCapitalMode) {
+            return this.last?._mod?.CAPITAL ?? true;
+        } else if (!this.isLetterSymbol) {
+            return false;
+        } else {
+            return this.last?.onGlobalCapitalMode ?? false;
+        }
+    }
+
+    // Global Under-mods
+    get onGlobalEmphasisMode() {
+        if (this.isEmphasisUnderModeSymbol) {
+            return this.last?._mod?.EMPHASIS ?? true;
+        } else if (!this.isLetterSymbol) {
+            return false;
+        } else {
+            return this.last?.onGlobalEmphasisMode ?? false;
+        }
+    }
+    get onSuperGlobalEmphasisMode() {
+        if (this.isEmphasisUnderModeSymbol && this.next?.isEmphasisUnderModeSymbol && !this.last?.onSuperGlobalEmphasisMode) {
+            return this.last?._mod?.EMPHASIS ?? true;
+        } else if (this.isEmphasisUnderModeSymbol && this.isLetterSymbol) {
+            return false;
+        } else {
+            return this.last?.onSuperGlobalEmphasisMode ?? false;
+        }
     }
 
     // Local mods
@@ -1010,6 +1069,9 @@ class Linked {
     }
     get onAccentMarkUnderMode() {
         return this.last?._mod?.ACCENT_MARK ?? this.left?.isAccentMarkUnderModeSymbol ?? false;
+    }
+    get onEmphasisMode() {
+        return this.last?._mod?.EMPHASIS ?? this.last?.isEmphasisUnderModeSymbol ?? false;
     }
 }
 
