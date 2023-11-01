@@ -143,8 +143,8 @@ const ENCODER = {
         },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
         },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
         },  '⠎': function() { return this.type == 'EBAE'
-                                ? this.next && (this.next.isApostropheUnderModeSymbol = false) ? '§' : this.onCapitalMode ? 'S' : 's'
-                                : this.onAccentMarkUnderMode    ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
+                                ? (this.hasApostropheAtRight = false)                       ? '§' : this.onCapitalMode ? 'S' : 's'
+                                : this.onAccentMarkUnderMode ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
         },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
 
         // 1-2-4-5-6 => (u-w)
@@ -186,16 +186,16 @@ const ENCODER = {
                                 ? this.next?.char == '⠏' ? '' : 'cc'
                                 :                               'cc'
         },  '⠲': function() { return this.type == 'EBAE'
-                                ? this.next?.isTraditionalNumberModeSymbol || this.hasAccentMarkAtLeft ? '$' : this._ ? '.' : 'dd'
-                                : this.inEllipsis                                                      ? '.' : this._ ? '.' : 'dd'
+                                ? this.next?.isTraditionalNumberModeSymbol || this.onAccentMarkUnderMode ? '$' : this._ ? '.' : 'dd'
+                                : this.inEllipsis                                                        ? '.' : this._ ? '.' : 'dd'
         },  '⠢': function() { return 'en'
         },  '⠖': function() { return 'ff'
         },  '⠶': function() { return this.type == 'EBAE'
-                                ? this.onCapitalMode ? '[' : this.next && (this.next.isApostropheUnderModeSymbol = false) ? ']' : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
-                                :                                                                                                 this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
-        },  '⠦': function() { return this.hasAccentMarkAtLeft ? '?' : this.hasApostropheAtLeft ? '\u2018' : this._ ? '\u201C' : undefined  // ‘ “
+                                ? this.onCapitalMode ? '[' : (this.hasApostropheAtRight = false) ? ']' : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
+                                :                                                                        this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
+        },  '⠦': function() { return this.onAccentMarkUnderMode ? '?' : this.onApostropheUnderMode ? '\u2018' : this._ ? '\u201C' : undefined  // ‘ “
         },  '⠔': function() { return this.type == 'EBAE'
-                                ? this.last?.char == this.char ? '*' : this.char == this.next?.next ? '' : 'in'
+                                ? this.last?.char == this.char ? '*' : this.char == this.next?.char ? '' : 'in'
                                 : this.onSymbolMode            ? '*' :                                     'in'
         },  '⠴': function() { return this.type == 'EMAE'
                                 ?                                this.next && (this.next.isCapitalModeSymbol = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
@@ -628,6 +628,127 @@ class Linked {
         return (this.last?.last?.char == this.last?.char == this.char) || (this.last?.char == this.char == this.next?.char) || (this.char == this.next?.char == this.next?.next?.char);
     }
 
+    /* ========== Define properties: get position for mod symbol ========== */
+
+    // Traditional Number
+    get hasTraditionalNumberModeSymbolAtLeft() {
+        return this.last?.isTraditionalNumberModeSymbol ?? false;
+    }
+    get hasTraditionalNumberModeSymbolAtRight() {
+        return this.right?.isTraditionalNumberModeSymbol ?? false;
+    }
+    get hasTraditionalNumberModeSymbolOnlyAtLeft() {
+        return this.hasTraditionalNumberModeSymbolAtLeft && !this.hasTraditionalNumberModeSymbolAtRight;
+    }
+    get hasTraditionalNumberModeSymbolOnlyAtRight() {
+        return !this.hasTraditionalNumberModeSymbolAtLeft && this.hasTraditionalNumberModeSymbolAtRight;
+    }
+    get betweenTraditionalNumberModeSymbols() {
+        return this.hasTraditionalNumberModeSymbolAtLeft && this.hasTraditionalNumberModeSymbolAtRight;
+    }
+
+    // Antoine Number
+    get hasAntoineNumberModeSymbolAtLeft() {
+        return this.last?.isAntoineNumberModeSymbol ?? false;
+    }
+    get hasAntoineNumberModeSymbolAtRight() {
+        return this.right?.isAntoineNumberModeSymbol ?? false;
+    }
+    get hasAntoineNumberModeSymbolOnlyAtLeft() {
+        return this.hasAntoineNumberModeSymbolAtLeft && !this.hasAntoineNumberModeSymbolAtRight;
+    }
+    get hasAntoineNumberModeSymbolOnlyAtRight() {
+        return !this.hasAntoineNumberModeSymbolAtLeft && this.hasAntoineNumberModeSymbolAtRight;
+    }
+    get betweenAntoineNumberModeSymbols() {
+        return this.hasAntoineNumberModeSymbolAtLeft && this.hasAntoineNumberModeSymbolAtRight;
+    }
+
+    // Capital
+    get hasCapitalModeSymbolAtLeft() {
+        return this.last?.isCapitalModeSymbol ?? false;
+    }
+    get hasCapitalModeSymbolAtRight() {
+        return this.right?.isCapitalModeSymbol ?? false;
+    }
+    get hasCapitaModeSymbollOnlyAtLeft() {
+        return this.hasCapitalModeSymbolAtLeft && !this.hasCapitalModeSymbolAtRight;
+    }
+    get hasCapitalModeSymbolOnlyAtRight() {
+        return !this.hasCapitalModeSymbolAtLeft && this.hasCapitalModeSymbolAtRight;
+    }
+    get betweenCapitalModeSymbols() {
+        return this.hasCapitalModeSymbolAtLeft && this.hasCapitalModeSymbolAtRight;
+    }
+
+    // Superscript
+    get hasSuperscriptModeSymbolAtLeft() {
+        return this.last?.isSuperScriptModeSymbol ?? false;
+    }
+    get hasSuperscriptModeSymbolAtRight() {
+        return this.right?.isSuperScriptModeSymbol ?? false;
+    }
+    get hasSuperscriptModeSymbolOnlyAtLeft() {
+        return this.hasSuperscriptModeSymbolAtLeft && !this.hasSuperscriptModeSymbolAtRight;
+    }
+    get hasSuperscriptModeSymbolOnlyAtRight() {
+        return !this.hasSuperscriptModeSymbolAtLeft && this.hasSuperscriptModeSymbolAtRight;
+    }
+    get betweenSuperscriptModeSymbols() {
+        return this.hasSuperscriptModeSymbolAtLeft && this.hasSuperscriptModeSymbolAtRight;
+    }
+
+    // Subscript
+    get hasSubscriptModeSymbolAtLeft() {
+        return this.last?.isSubScriptModeSymbol ?? false;
+    }
+    get hasSubscriptModeSymbolAtRight() {
+        return this.right?.isSubScriptModeSymbol ?? false;
+    }
+    get hasSubscriptModeSymbolOnlyAtLeft() {
+        return this.hasSubscriptModeSymbolAtLeft && !this.hasSubscriptModeSymbolAtRight;
+    }
+    get hasSubscriptModeSymbolOnlyAtRight() {
+        return !this.hasSubscriptModeSymbolAtLeft && this.hasSubscriptModeSymbolAtRight;
+    }
+    get betweenSubscriptModeSymbols() {
+        return this.hasSubscriptModeSymbolAtLeft && this.hasSubscriptModeSymbolAtRight;
+    }
+
+    // Currency
+    get hasCurrencyModeSymbolAtLeft() {
+        return this.left?.isCurrencyModeSymbol ?? false;
+    }
+    get hasCurrencyModeSymbolAtRight() {
+        return this.right?.isCurrencyModeSymbol ?? false;
+    }
+    get hasCurrencyModeSymbolOnlyAtLeft() {
+        return this.hasCurrencyModeSymbolAtLeft && !this.hasCurrencyModeSymbolAtRight;
+    }
+    get hasCurrencyModeSymbolOnlyAtRight() {
+        return !this.hasCurrencyModeSymbolAtLeft && this.hasCurrencyModeSymbolAtRight;
+    }
+    get betweenCurrencyModeSymbols() {
+        return this.hasCurrencyModeSymbolAtLeft && this.hasCurrencyModeSymbolAtRight;
+    }
+
+    // Symbol
+    get hasSymbolModeSymbolAtLeft() {
+        return this.left?.isSymbolModeSymbol ?? false;
+    }
+    get hasSymbolModeSymbolAtRight() {
+        return this.right?.isSymbolModeSymbol ?? false;
+    }
+    get hasSymbolModeSymbolOnlyAtLeft() {
+        return this.hasSymbolModeSymbolAtLeft && !this.hasSymbolModeSymbolAtRight;
+    }
+    get hasSymbolModeSymbolOnlyAtRight() {
+        return !this.hasSymbolModeSymbolAtLeft && this.hasSymbolModeSymbolAtRight;
+    }
+    get betweenSymbolModeSymbols() {
+        return this.hasSymbolModeSymbolAtLeft && this.hasSymbolModeSymbolAtRight;
+    }
+
     /* ========== Define properties: get position for under-mod symbol ========== */
 
     // Apostrophe
@@ -664,8 +785,39 @@ class Linked {
         return this.hasAccentMarkAtLeft && this.hasAccentMarkAtRight;
     }
 
-    /* ========== Define properties: set right under-mod symbols ========== */
+    /* ========== Define properties: set right [under-] mod symbols ========== */
 
+    // Mods
+    set hasTraditionalNumberModeSymbolAtRight(bool) {
+        if (this.hasTraditionalNumberModeSymbolAtRight) this._mod.TRADITIONAL_NUMBER = bool;
+        return this.hasTraditionalNumberModeSymbolAtRight;
+    }
+    set hasAntoineNumberModeSymbolAtRight(bool) {
+        if (this.hasAntoineNumberModeSymbolAtRight) this._mod.ANTOINE_NUMBER = bool;
+        return this.hasAntoineNumberModeSymbolAtRight;
+    }
+    set hasCapitalModeSymbolAtRight(bool) {
+        if (this.hasCapitalModeSymbolAtRight) this._mod.CAPITAL = bool;
+        return this.hasCapitalModeSymbolAtRight;
+    }
+    set hasSuperscriptModeSymbolAtRight(bool) {
+        if (this.hasSuperscriptModeSymbolAtRight) this._mod.SUPERSCRIPT = bool;
+        return this.hasSuperscriptModeSymbolAtRight;
+    }
+    set hasSubscriptModeSymbolAtRight(bool) {
+        if (this.hasSubscriptModeSymbolAtRight) this._mod.SUBSCRIPT = bool;
+        return this.hasSubscriptModeSymbolAtRight;
+    }
+    set hasCurrencyModeSymbolAtRight(bool) {
+        if (this.hasCurrencyModeSymbolAtRight) this._mod.CURRENCY = bool;
+        return this.hasCurrencyModeSymbolAtRight;
+    }
+    set hasSymbolModeSymbolAtRight(bool) {
+        if (this.hasSymbolModeSymbolAtRight) this._mod.SYMBOL = bool;
+        return this.hasSymbolModeSymbolAtRight;
+    }
+
+    // Under-mods
     set hasApostropheAtRight(bool) {
         if (this.hasApostropheAtRight) this._mod.APOSTROPHE = bool;
         return this.hasApostropheAtRight;
