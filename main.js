@@ -1167,7 +1167,7 @@ class Braille {
     static encode(braille_text, language='en', options={}, debug=(()=>''), type='DEFAULT') {
         if (!ALL_WORDS[language]) throw ReferenceError('Invalid language code');
 
-        const list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, options, debug, type.toUpperCase()));
+        const list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, type, options, debug));
         
         list.map((v, i) => v.setPair(list[i-1], list[i+1]));
         return list.map(v => v.symbol()).join('');
@@ -1185,14 +1185,14 @@ class Braille {
 
         let list = [];
         if (!options.shorten_syllables && !options.shorten_words) {
-            list = Array.from(letters_text, v => new LinkedLettersWord(v, language, options, debug, type.toUpperCase()));
+            list = Array.from(letters_text, v => new LinkedLettersWord(v, language, type, options, debug));
         } else {
             for (let j, i = 0; i < letters_text.length; i+=(j||1)) {
                 for (j = options.shorten_words ? 9 : 3; j > 0; j--) {
                     let word = letters_text.slice(i, i+j);
 
                     if (ALL_WORDS[language].includes(word)) {
-                        let letters_word = new LinkedLettersWord(word, language, options, debug, type.toUpperCase()).setPair(
+                        let letters_word = new LinkedLettersWord(word, language, type, options, debug).setPair(
                             list.at(-1), new MinimumLinkedLettersWord(letters_text[i+j])
                         );
                         if (letters_word.symbol()) {
@@ -1200,7 +1200,7 @@ class Braille {
                             break;
                         }
                     } else if (word.length == 1) {
-                        list.push(new LinkedLettersWord(word, language, options, debug, type.toUpperCase()));
+                        list.push(new LinkedLettersWord(word, language, type, options, debug));
                         break;
                     }
                 }
