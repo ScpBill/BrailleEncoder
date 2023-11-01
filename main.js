@@ -1,12 +1,12 @@
 const ALL_WORDS = {
-    'en': [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'but', 'can', 'do', 'every', 'from', 'go', 'have', 'just', 'knowledge', 'like', 'more', 'not', 'people', 'quite', 'rather', 'so', 'that', 'us', 'very', 'it', 'you', 'as', 'and', 'for', 'of', 'the', 'with', 'ch', 'gh', 'sh', 'th', 'wh', 'ed', 'er', 'ou', 'ow', 'will', 'ea', 'bb', 'cc', 'dis', 'en', 'to', 'gg', 'his', 'in', 'was', 'st', 'ing', 'ble', 'ar', 'com', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', ';', ':', '.', '!', '(', ')', '«', '»', '/', '#', "'", '-'],
-    'ru': [' ', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', ';', ':', '.', '!', '(', ')', '«', '»', '/', '#', "'", '-'],
+    en: [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'but', 'can', 'do', 'every', 'from', 'go', 'have', 'just', 'knowledge', 'like', 'more', 'not', 'people', 'quite', 'rather', 'so', 'that', 'us', 'very', 'it', 'you', 'as', 'and', 'for', 'of', 'the', 'with', 'ch', 'gh', 'sh', 'th', 'wh', 'ed', 'er', 'ou', 'ow', 'will', 'ea', 'bb', 'cc', 'dis', 'en', 'to', 'gg', 'his', 'in', 'was', 'st', 'ing', 'ble', 'ar', 'com', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', ';', ':', '.', '!', '(', ')', '«', '»', '/', '#', "'", '-'],
+    ru: [' ', 'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э', 'ю', 'я', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ъ', 'Ы', 'Ь', 'Э', 'Ю', 'Я', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', ';', ':', '.', '!', '(', ')', '«', '»', '/', '#', "'", '-'],
 }
 
 
 
 const MODES = {
-    'fr': {
+    fr: {
         enable: {
             TRADITIONAL_NUMBER: '⠼',
             ANTOINE_NUMBER: '⠠',
@@ -21,17 +21,19 @@ const MODES = {
             ANTOINE_NUMBER: '⠰',
         }
     },
-    'en': {
+    en: {
         enable: {
             TRADITIONAL_NUMBER: '⠼',
             CAPITAL: '⠠',
             SYMBOL: '⠐',
+            APOSTROPHE: '⠄',
+            ACCENT_MARK: '⠈',
         },
         disable: {
             TRADITIONAL_NUMBER: '⠰',
         }
     },
-    'ru': {
+    ru: {
         enable: {
             TRADITIONAL_NUMBER: '⠼',
             CAPITAL: '⠠',
@@ -42,265 +44,325 @@ const MODES = {
     }
 }
 const ENCODER = {
-    'fr': {
-        // 1-2-4-5 => (a-j||1-0)
-            '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
-        },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
-        },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : this.onSymbolMode ? '©' : 'c'
-        },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
-        },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : this.onCurrencyMode ? '€' : 'e'
-        },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
-        },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
-        },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
-        },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
-        },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
-        // 1-2-3-4-5 => (k-t)
-        },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
-        },  '⠇': function() { return this.onCapitalMode ? 'L' : this.onCurrencyMode ? '£' : 'l'
-        },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
-        },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
-        },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
-        },  '⠏': function() { return this.onCapitalMode ? 'P' : this.onSymbolMode ? '§' : 'p'
-        },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
-        },  '⠗': function() { return this.onCapitalMode ? 'R' : this.onSymbolMode ? '®' : 'r'
-        },  '⠎': function() { return this.onCapitalMode ? 'S' : this.onCurrencyMode ? '$' : 's'
-        },  '⠞': function() { return this.onCapitalMode ? 'T' : this.onSymbolMode ? '™' : 't'
-        // 1-2-3-4-5-6 => (u-ù)
-        },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
-        },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
-        },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
-        },  '⠽': function() { return this.onCapitalMode ? 'Y' : this.onCurrencyMode ? '¥' : 'y'
-        },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
-        },  '⠯': function() { return this.onCapitalMode ? 'Ç' : 'ç'
-        },  '⠿': function() { return this.onCapitalMode ? 'É' : 'é'
-        },  '⠷': function() { return this.onCapitalMode ? 'À' : 'à'
-        },  '⠮': function() { return this.onCapitalMode ? 'È' : 'è'
-        },  '⠾': function() { return this.onCapitalMode ? 'Ù' : 'ù'
-        // 1-2-4-5-6 => (â-w)
-        },  '⠡': function() { return this.onGlobalAntoineNumberMode ? '1' : this.onCapitalMode ? 'Â' : 'â'
-        },  '⠣': function() { return this.onGlobalAntoineNumberMode ? '2' : this.onCapitalMode ? 'Ê' : 'ê'
-        },  '⠩': function() { return this.onGlobalAntoineNumberMode ? '3' : this.onCapitalMode ? 'Î' : 'î'
-        },  '⠹': function() { return this.onGlobalAntoineNumberMode ? '4' : this.onCapitalMode ? 'Ô' : 'ô'
-        },  '⠱': function() { return this.onGlobalAntoineNumberMode ? '5' : this.onCapitalMode ? 'Û' : 'û'
-        },  '⠫': function() { return this.onGlobalAntoineNumberMode ? '6' : this.onCapitalMode ? 'Ë' : 'ë'
-        },  '⠻': function() { return this.onGlobalAntoineNumberMode ? '7' : this.onCapitalMode ? 'Ï' : 'ï'  // TODO: onCurrencyMode => speech bubble
-        },  '⠳': function() { return this.onGlobalAntoineNumberMode ? '8' : this.onCapitalMode ? 'Ü' : 'ü'  // TODO: onCurrencyMode => thought bubble
-        },  '⠪': function() { return this.onGlobalAntoineNumberMode ? '9' : this.onCapitalMode ? 'Ö|Œ' : 'ö|œ'
-        },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
-        // 2-3-5-6 [down shift] => (signs)
-        },  '⠂': function() { return ','
-        },  '⠆': function() { return ';'
-        },  '⠒': function() { return this.onGlobalAntoineNumberMode ? '\u00F7' : ':'  // ÷
-        },  '⠲': function() { return this.onGlobalAntoineNumberMode ? '/'      : '.'
-        },  '⠢': function() { return this.onGlobalAntoineNumberMode ? ''       : '?'  // ENABLE: SUBSCRIPT  //TODO: (start) emphasis
-        },  '⠖': function() { return this.onGlobalAntoineNumberMode ? '+'      : '!'
-        },  '⠶': function() { return this.onGlobalAntoineNumberMode ? '='      : '"'
-        },  '⠦': function() { return '('
-        },  '⠔': function() { return this.onGlobalAntoineNumberMode ? '\u00D7' : undefined  // ×  // TODO: (end) emphasis
-        },  '⠴': function() { return ')'
-        // { 3, 3-6, 6 } [decade]
-        },  '⠄': function() { return this.onGlobalAntoineNumberMode ? '\u002E' : "'"  // .  // TODO: The space in numbers between thousands.
-        },  '⠤': function() { return this.onGlobalAntoineNumberMode ? '-'      : '\u2013'  // –
-        },  '⠠': function() { return ''  // ENABLE: ANTOINE_NUMBER
-        // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
-        },  '⠈': function() { return ''  // ENABLE: SUPERSCRIPT
-        },  '⠘': function() { return ''  // ENABLE: CURRENCY
-        },  '⠌': function() { return this.onGlobalAntoineNumberMode ? '/' : 'ì'
-        },  '⠜': function() { return this.onGlobalAntoineNumberMode ? '@' : this.onCapitalMode ? 'Ä|Æ' : 'ä|æ'  // TODO: Also marks the end of a verse.
-        },  '⠬': function() { return this.onGlobalAntoineNumberMode ? '*' : (this.onSymbolMode ? (this.next?.next?.char == this.next?.char == '⠬' ? '‱' : this.next?.char == '⠬' ? '‰' : '%') : ((this.last?.last?.onSymbolMode && this.last?.last?.char == this.last?.char == '⠬') || (this.last?.onSymbolMode && this.last?.char == '⠬')) ? '' : undefined) ?? 'ò'  // TODO: Used to mark a footnote or endnote.
-        },  '⠼': function() { return this.onGlobalAntoineNumberMode ? '0' : '#'  // ENABLE: TRADITIONAL_NUMBER
-        },  '⠨': function() { return ''  // ENABLE: CAPITAL
-        },  '⠸': function() { return '\u0300'  // grave accent
-        },  '⠐': function() { return ''  // ENABLE: SYMBOL
-        },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER && ANTOINE_NUMBER
-        // { 0, 1-2-3-4-5-6 } => (space)
-        },  ' ': function() { return ' '
-        },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
+    fr: {
+        DEFAULT: {
+            // 1-2-4-5 => (a-j||1-0)
+                '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
+            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
+            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : this.onSymbolMode ? '©' : 'c'
+            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
+            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : this.onCurrencyMode ? '€' : 'e'
+            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
+            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
+            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
+            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
+            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
+            // 1-2-3-4-5 => (k-t)
+            },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
+            },  '⠇': function() { return this.onCapitalMode ? 'L' : this.onCurrencyMode ? '£' : 'l'
+            },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
+            },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
+            },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
+            },  '⠏': function() { return this.onCapitalMode ? 'P' : this.onSymbolMode ? '§' : 'p'
+            },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
+            },  '⠗': function() { return this.onCapitalMode ? 'R' : this.onSymbolMode ? '®' : 'r'
+            },  '⠎': function() { return this.onCapitalMode ? 'S' : this.onCurrencyMode ? '$' : 's'
+            },  '⠞': function() { return this.onCapitalMode ? 'T' : this.onSymbolMode ? '™' : 't'
+            // 1-2-3-4-5-6 => (u-ù)
+            },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
+            },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
+            },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
+            },  '⠽': function() { return this.onCapitalMode ? 'Y' : this.onCurrencyMode ? '¥' : 'y'
+            },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
+            },  '⠯': function() { return this.onCapitalMode ? 'Ç' : 'ç'
+            },  '⠿': function() { return this.onCapitalMode ? 'É' : 'é'
+            },  '⠷': function() { return this.onCapitalMode ? 'À' : 'à'
+            },  '⠮': function() { return this.onCapitalMode ? 'È' : 'è'
+            },  '⠾': function() { return this.onCapitalMode ? 'Ù' : 'ù'
+            // 1-2-4-5-6 => (â-w)
+            },  '⠡': function() { return this.onGlobalAntoineNumberMode ? '1' : this.onCapitalMode ? 'Â' : 'â'
+            },  '⠣': function() { return this.onGlobalAntoineNumberMode ? '2' : this.onCapitalMode ? 'Ê' : 'ê'
+            },  '⠩': function() { return this.onGlobalAntoineNumberMode ? '3' : this.onCapitalMode ? 'Î' : 'î'
+            },  '⠹': function() { return this.onGlobalAntoineNumberMode ? '4' : this.onCapitalMode ? 'Ô' : 'ô'
+            },  '⠱': function() { return this.onGlobalAntoineNumberMode ? '5' : this.onCapitalMode ? 'Û' : 'û'
+            },  '⠫': function() { return this.onGlobalAntoineNumberMode ? '6' : this.onCapitalMode ? 'Ë' : 'ë'
+            },  '⠻': function() { return this.onGlobalAntoineNumberMode ? '7' : this.onCapitalMode ? 'Ï' : 'ï'  // TODO: onCurrencyMode => speech bubble
+            },  '⠳': function() { return this.onGlobalAntoineNumberMode ? '8' : this.onCapitalMode ? 'Ü' : 'ü'  // TODO: onCurrencyMode => thought bubble
+            },  '⠪': function() { return this.onGlobalAntoineNumberMode ? '9' : this.onCapitalMode ? 'Ö|Œ' : 'ö|œ'
+            },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
+            // 2-3-5-6 [down shift] => (signs)
+            },  '⠂': function() { return ','
+            },  '⠆': function() { return ';'
+            },  '⠒': function() { return this.onGlobalAntoineNumberMode ? '\u00F7' : ':'  // ÷
+            },  '⠲': function() { return this.onGlobalAntoineNumberMode ? '/'      : '.'
+            },  '⠢': function() { return this.onGlobalAntoineNumberMode ? ''       : '?'  // ENABLE: SUBSCRIPT  //TODO: (start) emphasis
+            },  '⠖': function() { return this.onGlobalAntoineNumberMode ? '+'      : '!'
+            },  '⠶': function() { return this.onGlobalAntoineNumberMode ? '='      : '"'
+            },  '⠦': function() { return '('
+            },  '⠔': function() { return this.onGlobalAntoineNumberMode ? '\u00D7' : undefined  // ×  // TODO: (end) emphasis
+            },  '⠴': function() { return ')'
+            // { 3, 3-6, 6 } [decade]
+            },  '⠄': function() { return this.onGlobalAntoineNumberMode ? '\u002E' : "'"  // .  // TODO: The space in numbers between thousands.
+            },  '⠤': function() { return this.onGlobalAntoineNumberMode ? '-'      : '\u2013'  // –
+            },  '⠠': function() { return ''  // ENABLE: ANTOINE_NUMBER
+            // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
+            },  '⠈': function() { return ''  // ENABLE: SUPERSCRIPT
+            },  '⠘': function() { return ''  // ENABLE: CURRENCY
+            },  '⠌': function() { return this.onGlobalAntoineNumberMode ? '/' : 'ì'
+            },  '⠜': function() { return this.onGlobalAntoineNumberMode ? '@' : this.onCapitalMode ? 'Ä|Æ' : 'ä|æ'  // TODO: Also marks the end of a verse.
+            },  '⠬': function() { return this.onGlobalAntoineNumberMode ? '*' : (this.onSymbolMode ? (this.next?.next?.char == this.next?.char == '⠬' ? '‱' : this.next?.char == '⠬' ? '‰' : '%') : ((this.last?.last?.onSymbolMode && this.last?.last?.char == this.last?.char == '⠬') || (this.last?.onSymbolMode && this.last?.char == '⠬')) ? '' : undefined) ?? 'ò'  // TODO: Used to mark a footnote or endnote.
+            },  '⠼': function() { return this.onGlobalAntoineNumberMode ? '0' : '#'  // ENABLE: TRADITIONAL_NUMBER
+            },  '⠨': function() { return ''  // ENABLE: CAPITAL
+            },  '⠸': function() { return '\u0300'  // diacritical `
+            },  '⠐': function() { return ''  // ENABLE: SYMBOL
+            },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER && ANTOINE_NUMBER
+            // { 0, 1-2-3-4-5-6 } => (space)
+            },  ' ': function() { return ' '
+            },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
+            },
         },
     },
-    'en': {
-        // 1-2-4-5 => (a-j)
-            '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
-        },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
-        },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : 'c'
-        },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
-        },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : 'e'
-        },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
-        },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
-        },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
-        },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
-        },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
+    en: {
+        EBAE: {
+            // 1-2-4-5 => (a-j)
+                '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
+            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
+            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : 'c'
+            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
+            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : 'e'
+            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
+            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
+            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
+            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
+            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
 
-        // 1-2-3-4-5 => (k-t)
-        },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
-        },  '⠇': function() { return this.onCapitalMode ? 'L' : 'l'
-        },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
-        },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
-        },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
-        },  '⠏': function() { return this.type == 'EBAE'
-                                ? this.last?.hasAccentMarkAtLeft && this.last?.char == '⠒' ? '%' : this.onCapitalMode ? 'P' : 'p'
-                                :                                                                  this.onCapitalMode ? 'P' : 'p'
-        },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
-        },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
-        },  '⠎': function() { return this.type == 'EBAE'
-                                ? (this.hasApostropheAtRight = false)                       ? '§' : this.onCapitalMode ? 'S' : 's'
-                                : this.onAccentMarkUnderMode ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
-        },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
+            // 1-2-3-4-5 => (k-t)
+            },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
+            },  '⠇': function() { return this.onCapitalMode ? 'L' : 'l'
+            },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
+            },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
+            },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
+            },  '⠏': function() { return this.last?.onAccentMarkUnderMode && this.last?.char == '⠒' ? '%' : this.onCapitalMode ? 'P' : 'p'
+            },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
+            },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
+            },  '⠎': function() { return (this.hasApostropheAtRight = false) ? '§' : this.onCapitalMode ? 'S' : 's'
+            },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
 
-        // 1-2-4-5-6 => (u-w)
-        },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
-        },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
-        },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
-        },  '⠽': function() { return this.onCapitalMode ? 'Y' : 'y'
-        },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
-        },  '⠯': function() { return this.type == 'EBAE'
-                                ? this.onAccentMarkUnderMode ? '&' : 'and'
-                                :                                    'and'
-        },  '⠿': function() { return 'for'
-        },  '⠷': function() { return 'of'
-        },  '⠮': function() { return 'the'
-        },  '⠾': function() { return 'with'
+            // 1-2-4-5-6 => (u-w)
+            },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
+            },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
+            },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
+            },  '⠽': function() { return this.onCapitalMode ? 'Y' : 'y'
+            },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
+            },  '⠯': function() { return this.onAccentMarkUnderMode ? '&' : 'and'
+            },  '⠿': function() { return 'for'
+            },  '⠷': function() { return 'of'
+            },  '⠮': function() { return 'the'
+            },  '⠾': function() { return 'with'
 
-        // 1-2-4-5-6
-        },  '⠡': function() { return 'ch' 
-        },  '⠣': function() { return this.type == 'EBAE'
-                                ?                           'gh'
-                                : this.onSymbolMode ? '(' : 'gh'
-        },  '⠩': function() { return 'sh' 
-        },  '⠹': function() { return this.type == 'EBAE'
-                                ?                                                                'th'
-                                : this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '†' : 'th' 
-        },  '⠱': function() { return 'wh' 
-        },  '⠫': function() { return 'ed' 
-        },  '⠻': function() { return this.type == 'EBAE'
-                                ?                                                                'er'
-                                : this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '‡' : 'er' 
-        },  '⠳': function() { return 'ou' 
-        },  '⠪': function() { return 'ow' 
-        },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
+            // 1-2-4-5-6
+            },  '⠡': function() { return 'ch' 
+            },  '⠣': function() { return 'gh'
+            },  '⠩': function() { return 'sh' 
+            },  '⠹': function() { return 'th'
+            },  '⠱': function() { return 'wh' 
+            },  '⠫': function() { return 'ed' 
+            },  '⠻': function() { return 'er'
+            },  '⠳': function() { return 'ou' 
+            },  '⠪': function() { return 'ow' 
+            },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
 
-        // 2-3-4-5 [down shift] => (signs)
-        },  '⠂': function() { return this.onSymbolMode ? '\u3003' : 'ea'  // 〃
-        },  '⠆': function() { return 'bb'
-        },  '⠒': function() { return this.type == 'EBAE'
-                                ? this.next?.char == '⠏' ? '' : 'cc'
-                                :                               'cc'
-        },  '⠲': function() { return this.type == 'EBAE'
-                                ? this.hasTraditionalNumberModeSymbolAtRight || this.onAccentMarkUnderMode ? '$' : this._ ? '.' : 'dd'
-                                : this.inEllipsis                                                          ? '.' : this._ ? '.' : 'dd'
-        },  '⠢': function() { return 'en'
-        },  '⠖': function() { return 'ff'
-        },  '⠶': function() { return this.type == 'EBAE'
-                                ? this.onCapitalMode ? '[' : (this.hasApostropheAtRight = false) ? ']' : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
-                                :                                                                        this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
-        },  '⠦': function() { return this.onAccentMarkUnderMode ? '?' : this.onApostropheUnderMode ? '\u2018' : this._ ? '\u201C' : undefined  // ‘ “
-        },  '⠔': function() { return this.type == 'EBAE'
-                                ? this.last?.char == this.char ? '*' : this.char == this.next?.char ? '' : 'in'
-                                : this.onSymbolMode            ? '*' :                                     'in'
-        },  '⠴': function() { return this.type == 'EMAE'
-                                ?                                (this.hasCapitalModeSymbolAtRight = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
-                                : this.last?.char == '⠨' ? '%' : (this.hasCapitalModeSymbolAtRight = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
+            // 2-3-4-5 [down shift] => (signs)
+            },  '⠂': function() { return this.onSymbolMode ? '\u3003' : 'ea'  // 〃
+            },  '⠆': function() { return 'bb'
+            },  '⠒': function() { return this.next?.char == '⠏' ? '' : 'cc'
+            },  '⠲': function() { return this.hasTraditionalNumberModeSymbolAtRight || this.onAccentMarkUnderMode ? '$' : this._ ? '.' : 'dd'
+            },  '⠢': function() { return 'en'
+            },  '⠖': function() { return 'ff'
+            },  '⠶': function() { return this.onCapitalMode ? '[' : (this.hasApostropheAtRight = false) ? ']' : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
+            },  '⠦': function() { return this.onAccentMarkUnderMode ? '?' : this.onApostropheUnderMode ? '\u2018' : this._ ? '\u201C' : undefined  // ‘ “
+            },  '⠔': function() { return this.last?.char == this.char ? '*' : this.char == this.next?.char ? '' : 'in'
+            },  '⠴': function() { return (this.hasCapitalModeSymbolAtRight = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
 
-        // { 3, 3-6, 6 } [decade]
-        },  '⠄': function() { return this.type == 'EBAE'  // TODO: termination sign => onCapitalMode  // apostrophe
-                                ? this.inEllipsis ? '.' : "'"
-                                :                         "'"
-        },  '⠤': function() { return this.type == 'EBAE'
-                                ? this.char == this?.next.char == this?.next?.next.char == this?.next?.next?.next.char ? this.last?.last?.last?.last?.symbol == '—' && this.last?.last?.last?.char == this.last?.last?.char == this.last?.char == this.char || this.last?.char != this.char ? '—' : '' : this.next?.char == this.char ? this.last?.last?.last?.last?.symbol == '—' && this.last?.last?.last?.char == this.last?.last?.char == this.last?.char == this.char || this.last?.char != this.char ? '–' : '' : '-'
-                                : this.onCapitalMode ? this.last?.onSymbolMode ? '—' : '–': '-'
-        },  '⠠': function() { return undefined  // ENABLE: CAPITAL
+            // { 3, 3-6, 6 } [decade]
+            },  '⠄': function() { return this.inEllipsis ? '.' : "'"  // TODO: termination sign => onCapitalMode  // apostrophe
+            },  '⠤': function() { return this.char == this?.next.char == this?.next?.next.char == this?.next?.next?.next.char ? this.last?.last?.last?.last?.symbol() == '—' && this.last?.last?.last?.char == this.last?.last?.char == this.last?.char == this.char || this.last?.char != this.char ? '—' : '' : this.next?.char == this.char ? this.last?.last?.last?.last?.symbol() == '—' && this.last?.last?.last?.char == this.last?.last?.char == this.last?.char == this.char || this.last?.char != this.char ? '–' : '' : '-'
+            },  '⠠': function() { return undefined  // ENABLE: CAPITAL
 
-        // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
-        },  '⠈': function() { return this.hasLetterAtRight ^ this.next?.char == '⠎' ? '\u0300' : ''  // diacritical `
-        },  '⠘': function() { return undefined
-        },  '⠌': function() { return this._adv && !this.betweenSpaces                                        ? 'st'  : '/'  // TODO
-        },  '⠜': function() { return this.type == 'EBAE'
-                                ?                           'ar'
-                                : this.onSymbolMode ? ')' : 'ar'
-        },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
-        },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // ENABLE: TRADITIONAL_NUMBER
-        },  '⠨': function() { return this.type == 'EBAE'
-                                ? this.hasLetterAtRight ? '\u0300' : this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.hasTraditionalNumberModeSymbolAtRight? ',' : ''  // diacritical `
-                                : this.hasLetterAtRight ? '\u0300' : this._                                                                                                        ? '.' : ''  // diacritical `
-        },  '⠸': function() { return undefined
-        },  '⠐': function() { return ''  // ENABLE: SYMBOL
-        },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER
+            // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
+            },  '⠈': function() { return this.hasLetterAtRight ^ this.next?.char == '⠎' ? '\u0300' : ''  // diacritical `
+            },  '⠘': function() { return undefined
+            },  '⠌': function() { return this._adv && !this.betweenSpaces                                        ? 'st'  : '/'  // TODO
+            },  '⠜': function() { return 'ar'
+            },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
+            },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // ENABLE: TRADITIONAL_NUMBER
+            },  '⠨': function() { return this.hasLetterAtRight ? '\u0300' : this.hasNumberAtLeft && this.last?.onGlobalTraditionalNumberMode && this.hasTraditionalNumberModeSymbolAtRight? ',' : ''  // diacritical `
+            },  '⠸': function() { return undefined
+            },  '⠐': function() { return ''  // ENABLE: SYMBOL
+            },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER
 
-        // { 0, 1-2-3-4-5-6 } => (space)
-        },  ' ': function() { return ' '
-        },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
+            // { 0, 1-2-3-4-5-6 } => (space)
+            },  ' ': function() { return ' '
+            },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
+            },
         },
+        UEB: {
+            // 1-2-4-5 => (a-j)
+                '⠁': function() { return this.onGlobalTraditionalNumberMode ? '1' : this.onCapitalMode ? 'A' : 'a'
+            },  '⠃': function() { return this.onGlobalTraditionalNumberMode ? '2' : this.onCapitalMode ? 'B' : 'b'
+            },  '⠉': function() { return this.onGlobalTraditionalNumberMode ? '3' : this.onCapitalMode ? 'C' : 'c'
+            },  '⠙': function() { return this.onGlobalTraditionalNumberMode ? '4' : this.onCapitalMode ? 'D' : 'd'
+            },  '⠑': function() { return this.onGlobalTraditionalNumberMode ? '5' : this.onCapitalMode ? 'E' : 'e'
+            },  '⠋': function() { return this.onGlobalTraditionalNumberMode ? '6' : this.onCapitalMode ? 'F' : 'f'
+            },  '⠛': function() { return this.onGlobalTraditionalNumberMode ? '7' : this.onCapitalMode ? 'G' : 'g'
+            },  '⠓': function() { return this.onGlobalTraditionalNumberMode ? '8' : this.onCapitalMode ? 'H' : 'h'
+            },  '⠊': function() { return this.onGlobalTraditionalNumberMode ? '9' : this.onCapitalMode ? 'I' : 'i'
+            },  '⠚': function() { return this.onGlobalTraditionalNumberMode ? '0' : this.onCapitalMode ? 'J' : 'j'
+
+            // 1-2-3-4-5 => (k-t)
+            },  '⠅': function() { return this.onCapitalMode ? 'K' : 'k'
+            },  '⠇': function() { return this.onCapitalMode ? 'L' : 'l'
+            },  '⠍': function() { return this.onCapitalMode ? 'M' : 'm'
+            },  '⠝': function() { return this.onCapitalMode ? 'N' : 'n'
+            },  '⠕': function() { return this.onCapitalMode ? 'O' : 'o'
+            },  '⠏': function() { return this.onCapitalMode ? 'P' : 'p'
+            },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
+            },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
+            },  '⠎': function() { return this.onAccentMarkUnderMode ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
+            },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
+
+            // 1-2-4-5-6 => (u-w)
+            },  '⠥': function() { return this.onCapitalMode ? 'U' : 'u'
+            },  '⠧': function() { return this.onCapitalMode ? 'V' : 'v'
+            },  '⠭': function() { return this.onCapitalMode ? 'X' : 'x'
+            },  '⠽': function() { return this.onCapitalMode ? 'Y' : 'y'
+            },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
+            },  '⠯': function() { return 'and'
+            },  '⠿': function() { return 'for'
+            },  '⠷': function() { return 'of'
+            },  '⠮': function() { return 'the'
+            },  '⠾': function() { return 'with'
+
+            // 1-2-4-5-6
+            },  '⠡': function() { return 'ch' 
+            },  '⠣': function() { return this.onSymbolMode ? '(' : 'gh'
+            },  '⠩': function() { return 'sh' 
+            },  '⠹': function() { return this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '†' : 'th' 
+            },  '⠱': function() { return 'wh' 
+            },  '⠫': function() { return 'ed' 
+            },  '⠻': function() { return this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '‡' : 'er' 
+            },  '⠳': function() { return 'ou' 
+            },  '⠪': function() { return 'ow' 
+            },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
+
+            // 2-3-4-5 [down shift] => (signs)
+            },  '⠂': function() { return this.onSymbolMode ? '\u3003' : 'ea'  // 〃
+            },  '⠆': function() { return 'bb'
+            },  '⠒': function() { return 'cc'
+            },  '⠲': function() { return this.inEllipsis ? '.' : this._ ? '.' : 'dd'
+            },  '⠢': function() { return 'en'
+            },  '⠖': function() { return 'ff'
+            },  '⠶': function() { return this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
+            },  '⠦': function() { return this.onAccentMarkUnderMode ? '?' : this.onApostropheUnderMode ? '\u2018' : this._ ? '\u201C' : undefined  // ‘ “
+            },  '⠔': function() { return this.onSymbolMode ? '*' : 'in'
+            },  '⠴': function() { return this.last?.char == '⠨' ? '%' : (this.hasCapitalModeSymbolAtRight = false) ? '\u2019' : this._ ? '\u201D' : 'by'  // ’ ”
+
+            // { 3, 3-6, 6 } [decade]
+            },  '⠄': function() { return "'"  // TODO: termination sign => onCapitalMode  // apostrophe
+            },  '⠤': function() { return this.onCapitalMode ? this.last?.onSymbolMode ? '—' : '–': '-'
+            },  '⠠': function() { return undefined  // ENABLE: CAPITAL
+
+            // { 4-5, 3-4-5, 3-4-5-6, 4-5-6, 5-6 } [right shift]
+            },  '⠈': function() { return this.hasLetterAtRight ^ this.next?.char == '⠎' ? '\u0300' : ''  // diacritical `
+            },  '⠘': function() { return undefined
+            },  '⠌': function() { return this._adv && !this.betweenSpaces                                        ? 'st'  : '/'  // TODO
+            },  '⠜': function() { return this.onSymbolMode ? ')' : 'ar'
+            },  '⠬': function() { return this._adv                                                               ? 'ing' : undefined  // TODO
+            },  '⠼': function() { return this._adv && !(this.hasSpaceAtLeft && this.hasNumberAtRightAfterSpaces) ? 'ble' : '#'  // TODO  // ENABLE: TRADITIONAL_NUMBER
+            },  '⠨': function() { return this.hasLetterAtRight ? '\u0300' : this._ ? '.' : ''  // diacritical `
+            },  '⠸': function() { return undefined
+            },  '⠐': function() { return ''  // ENABLE: SYMBOL
+            },  '⠰': function() { return undefined  // DISABLE: TRADITIONAL_NUMBER
+
+            // { 0, 1-2-3-4-5-6 } => (space)
+            },  ' ': function() { return ' '
+            },  '⠿': function() { return this.onSymbolMode ? '&' : undefined
+            },
+        },
+        DEFAULT: ENCODER.en.EBAE,
     }, 
-    'ru': {
-            '⠁': function() { return this.onTraditionalNumberMode ? '1' : this.onCapitalMode ? 'А' : 'а'
-        },  '⠃': function() { return this.onTraditionalNumberMode ? '2' : this.onCapitalMode ? 'Б' : 'б'
-        },  '⠉': function() { return this.onTraditionalNumberMode ? '3' : this.onCapitalMode ? 'Ц' : 'ц'
-        },  '⠙': function() { return this.onTraditionalNumberMode ? '4' : this.onCapitalMode ? 'Д' : 'д'
-        },  '⠑': function() { return this.onTraditionalNumberMode ? '5' : this.onCapitalMode ? 'Е' : 'е'
-        },  '⠋': function() { return this.onTraditionalNumberMode ? '6' : this.onCapitalMode ? 'Ф' : 'ф'
-        },  '⠛': function() { return this.onTraditionalNumberMode ? '7' : this.onCapitalMode ? 'Г' : 'г'
-        },  '⠓': function() { return this.onTraditionalNumberMode ? '8' : this.onCapitalMode ? 'Х' : 'х'
-        },  '⠊': function() { return this.onTraditionalNumberMode ? '9' : this.onCapitalMode ? 'И' : 'и'
-        },  '⠚': function() { return this.onTraditionalNumberMode ? '0' : this.onCapitalMode ? 'Ж' : 'ж'
-        },  '⠅': function() { return this.onCapitalMode ? 'К' : 'к'
-        },  '⠇': function() { return this.onCapitalMode ? 'Л' : 'л'
-        },  '⠍': function() { return this.onCapitalMode ? 'М' : 'м'
-        },  '⠝': function() { return this.onCapitalMode ? 'Н' : 'н'
-        },  '⠕': function() { return this.onCapitalMode ? 'О' : 'о'
-        },  '⠏': function() { return this.onCapitalMode ? 'П' : 'п'
-        },  '⠟': function() { return this.onCapitalMode ? 'Ч' : 'ч'
-        },  '⠗': function() { return this.onCapitalMode ? 'Р' : 'р'
-        },  '⠎': function() { return this.onCapitalMode ? 'С' : 'с'
-        },  '⠞': function() { return this.onCapitalMode ? 'Т' : 'т'
-        },  '⠥': function() { return this.onCapitalMode ? 'У' : 'У'
-        },  '⠧': function() { return undefined
-        },  '⠺': function() { return this.onCapitalMode ? 'В' : 'в'
-        },  '⠭': function() { return this.onCapitalMode ? 'Щ' : 'щ'
-        },  '⠽': function() { return undefined
-        },  '⠵': function() { return this.onCapitalMode ? 'З' : 'з'
-        },  '⠯': function() { return this.onCapitalMode ? 'Й' : 'й'
-        },  '⠿': function() { return undefined
-        },  '⠷': function() { return this.onCapitalMode ? 'Ъ' : 'ъ'
-        },  '⠮': function() { return this.onCapitalMode ? 'Ы' : 'ы'
-        },  '⠾': function() { return this.onCapitalMode ? 'Ь' : 'ь'
-        },  '⠡': function() { return this.onCapitalMode ? 'Ё' : 'ё'
-        },  '⠣': function() { return '('
-        },  '⠩': function() { return undefined
-        },  '⠹': function() { return undefined
-        },  '⠱': function() { return this.onCapitalMode ? 'Ш' : 'ш'
-        },  '⠫': function() { return this.onCapitalMode ? 'Я' : 'я'
-        },  '⠻': function() { return undefined
-        },  '⠳': function() { return this.onCapitalMode ? 'Ю' : 'ю'
-        },  '⠪': function() { return this.onCapitalMode ? 'Э' : 'э'
-        },  '⠂': function() { return ','
-        },  '⠆': function() { return ';'
-        },  '⠒': function() { return ':'
-        },  '⠲': function() { return '.'
-        },  '⠢': function() { return '?'
-        },  '⠖': function() { return '!'
-        },  '⠶': function() { return undefined
-        },  '⠦': function() { return '«'
-        },  '⠔': function() { return undefined
-        },  '⠴': function() { return '»'
-        },  '⠌': function() { return '/'
-        },  '⠬': function() { return undefined
-        },  '⠼': function() { return '#'  // Enable number mode
-        },  '⠜': function() { return ')'
-        },  '⠄': function() { return "'"
-        },  '⠤': function() { return this._adv && !this.betweenSpaces                 ? 'com' : '-'
-        },  '⠈': function() { return '`'
-        },  '⠘': function() { return undefined  // Disable shift mode (ru)
-        },  '⠸': function() { return undefined
-        },  '⠐': function() { return undefined  // Enable shift mode (ru)
-        },  '⠨': function() { return this.betweenNumbers && this.onTraditionalNumberMode ? ',' : '\u0340'
-        },  '⠰': function() { return undefined  // Disable number mode
-        },  '⠠': function() { return undefined
-        },  ' ': function() { return ' '
+    ru: {
+        DEFAULT: {
+                '⠁': function() { return this.onTraditionalNumberMode ? '1' : this.onCapitalMode ? 'А' : 'а'
+            },  '⠃': function() { return this.onTraditionalNumberMode ? '2' : this.onCapitalMode ? 'Б' : 'б'
+            },  '⠉': function() { return this.onTraditionalNumberMode ? '3' : this.onCapitalMode ? 'Ц' : 'ц'
+            },  '⠙': function() { return this.onTraditionalNumberMode ? '4' : this.onCapitalMode ? 'Д' : 'д'
+            },  '⠑': function() { return this.onTraditionalNumberMode ? '5' : this.onCapitalMode ? 'Е' : 'е'
+            },  '⠋': function() { return this.onTraditionalNumberMode ? '6' : this.onCapitalMode ? 'Ф' : 'ф'
+            },  '⠛': function() { return this.onTraditionalNumberMode ? '7' : this.onCapitalMode ? 'Г' : 'г'
+            },  '⠓': function() { return this.onTraditionalNumberMode ? '8' : this.onCapitalMode ? 'Х' : 'х'
+            },  '⠊': function() { return this.onTraditionalNumberMode ? '9' : this.onCapitalMode ? 'И' : 'и'
+            },  '⠚': function() { return this.onTraditionalNumberMode ? '0' : this.onCapitalMode ? 'Ж' : 'ж'
+            },  '⠅': function() { return this.onCapitalMode ? 'К' : 'к'
+            },  '⠇': function() { return this.onCapitalMode ? 'Л' : 'л'
+            },  '⠍': function() { return this.onCapitalMode ? 'М' : 'м'
+            },  '⠝': function() { return this.onCapitalMode ? 'Н' : 'н'
+            },  '⠕': function() { return this.onCapitalMode ? 'О' : 'о'
+            },  '⠏': function() { return this.onCapitalMode ? 'П' : 'п'
+            },  '⠟': function() { return this.onCapitalMode ? 'Ч' : 'ч'
+            },  '⠗': function() { return this.onCapitalMode ? 'Р' : 'р'
+            },  '⠎': function() { return this.onCapitalMode ? 'С' : 'с'
+            },  '⠞': function() { return this.onCapitalMode ? 'Т' : 'т'
+            },  '⠥': function() { return this.onCapitalMode ? 'У' : 'У'
+            },  '⠧': function() { return undefined
+            },  '⠺': function() { return this.onCapitalMode ? 'В' : 'в'
+            },  '⠭': function() { return this.onCapitalMode ? 'Щ' : 'щ'
+            },  '⠽': function() { return undefined
+            },  '⠵': function() { return this.onCapitalMode ? 'З' : 'з'
+            },  '⠯': function() { return this.onCapitalMode ? 'Й' : 'й'
+            },  '⠿': function() { return undefined
+            },  '⠷': function() { return this.onCapitalMode ? 'Ъ' : 'ъ'
+            },  '⠮': function() { return this.onCapitalMode ? 'Ы' : 'ы'
+            },  '⠾': function() { return this.onCapitalMode ? 'Ь' : 'ь'
+            },  '⠡': function() { return this.onCapitalMode ? 'Ё' : 'ё'
+            },  '⠣': function() { return '('
+            },  '⠩': function() { return undefined
+            },  '⠹': function() { return undefined
+            },  '⠱': function() { return this.onCapitalMode ? 'Ш' : 'ш'
+            },  '⠫': function() { return this.onCapitalMode ? 'Я' : 'я'
+            },  '⠻': function() { return undefined
+            },  '⠳': function() { return this.onCapitalMode ? 'Ю' : 'ю'
+            },  '⠪': function() { return this.onCapitalMode ? 'Э' : 'э'
+            },  '⠂': function() { return ','
+            },  '⠆': function() { return ';'
+            },  '⠒': function() { return ':'
+            },  '⠲': function() { return '.'
+            },  '⠢': function() { return '?'
+            },  '⠖': function() { return '!'
+            },  '⠶': function() { return undefined
+            },  '⠦': function() { return '«'
+            },  '⠔': function() { return undefined
+            },  '⠴': function() { return '»'
+            },  '⠌': function() { return '/'
+            },  '⠬': function() { return undefined
+            },  '⠼': function() { return '#'  // Enable number mode
+            },  '⠜': function() { return ')'
+            },  '⠄': function() { return "'"
+            },  '⠤': function() { return this._adv && !this.betweenSpaces                 ? 'com' : '-'
+            },  '⠈': function() { return '`'
+            },  '⠘': function() { return undefined  // Disable shift mode (ru)
+            },  '⠸': function() { return undefined
+            },  '⠐': function() { return undefined  // Enable shift mode (ru)
+            },  '⠨': function() { return this.betweenNumbers && this.onTraditionalNumberMode ? ',' : '\u0340'
+            },  '⠰': function() { return undefined  // Disable number mode
+            },  '⠠': function() { return undefined
+            },  ' ': function() { return ' '
+            },
         },
     }
 }
 const DECODER = {
-    'en': {
+    en: {
             'a': function() { return '⠁'
         },  'c': function() { return '⠉'
         },  'b': function() { return '⠃'
@@ -431,7 +493,7 @@ const DECODER = {
         },  ' ': function() { return ' '
         },
     },
-    'ru': {
+    ru: {
         'а': () => '⠁',
         'ц': () => '⠉',
         'б': () => '⠃',
@@ -883,16 +945,16 @@ class Linked {
 
 
 class LinkedBrailleSymbol extends Linked {
-    constructor(char, language='en', {autocorrect=true, shorten_syllables=true, shorten_words=true, advanced=false}, debug=(()=>''), type='EBAE') {
+    constructor(char, language='en', type='DEFAULT', {autocorrect=true, shorten_syllables=true, shorten_words=true, advanced=false}, debug=(()=>'')) {
         super();
         this.char = char;
-        this.lang = language;
+        this.lang = language.toLowerCase();
+        this.type = type.toUpperCase();
         this._adv = advanced;
         this._ac = autocorrect;
         this._ss = shorten_syllables;
         this._sw = shorten_words;
-        this.debug = debug;
-        this.type = type;
+        this._debug = debug;
     }
 
     // Set side braille symbols
@@ -939,18 +1001,18 @@ class LinkedBrailleSymbol extends Linked {
         if (this.lang == 'en') return this.char == '⠈';
         return false;
     }
-    // get isDoubleDash() {
-    //     if (this.lang == 'en' && this.type == 'EBAE' ) {
-    //         return '⠤' == this.char == this.last?.char == this.last?.last?.char == this.last?.last?.last.char
-    //     }
-    //     return false;
-    // }
 
     // Get symbol
-    get symbol() {
-        return ENCODER[this.lang][this.char]?.call(this) ?? (this.debug(this.word));
+    symbol() {
+        let char = ENCODER[this.lang]?.[this.type]?.[this.char];
+        if (char) {
+            return char.call(this) ?? (this._debug(this.char));
+        } else {
+            throw new TypeError('Incorrect language or type entered');
+        }
     }
 }
+
 
 class MinimumLinkedLettersWord extends Linked {
     constructor(word) {
@@ -972,15 +1034,15 @@ class MinimumLinkedLettersWord extends Linked {
 
 
 class LinkedLettersWord extends MinimumLinkedLettersWord {
-    constructor(word, language='en', {autocorrect=true, shorten_syllables=false, shorten_words=false, advanced=false}, debug=(()=>''), type='EBAE') {
+    constructor(word, language='en', type='DEFAULT', {autocorrect=true, shorten_syllables=false, shorten_words=false, advanced=false}, debug=(()=>'')) {
         super(word);
-        this.lang = language;
+        this.lang = language.toLowerCase();
+        this.type = type.toUpperCase();
         this._adv = advanced;
         this._ac = autocorrect;
         this._ss = shorten_syllables;
         this._sw = shorten_words;
-        this.debug = debug;
-        this.type = type;
+        this._debug = debug;
     }
 
     // Set side latin words || symbols
@@ -991,8 +1053,13 @@ class LinkedLettersWord extends MinimumLinkedLettersWord {
     }
 
     // Get symbol
-    get symbol() {
-        return DECODER[this.lang][this.word]?.call(this) ?? (this.debug(this.word));
+    symbol() {
+        let word = ENCODER[this.lang]?.[this.type]?.[this.word];
+        if (word) {
+            return word.call(this) ?? (this._debug(this.word));
+        } else {
+            throw new TypeError('Incorrect language or type entered');
+        }
     }
 }
 
@@ -1012,7 +1079,7 @@ class Braille {
         const list = Array.from(braille_text, v => new LinkedBrailleSymbol(v, language, options, debug, type.toUpperCase()));
         
         list.map((v, i) => v.setPair(list[i-1], list[i+1]));
-        return list.map(v => v.symbol).join('');
+        return list.map(v => v.symbol()).join('');
     }
 
     /**
@@ -1038,7 +1105,7 @@ class Braille {
                         let letters_word = new LinkedLettersWord(word, language, options, debug, type.toUpperCase()).setPair(
                             list.at(-1), new MinimumLinkedLettersWord(letters_text[i+j])
                         );
-                        if (letters_word.symbol) {
+                        if (letters_word.symbol()) {
                             list.push(letters_word);
                             break;
                         }
@@ -1050,7 +1117,7 @@ class Braille {
             }
         }
         let pairList = list.map((v, i) => v.setPair(list[i-1], list[i+1]));
-        return pairList.map(v => v.symbol).join('');
+        return pairList.map(v => v.symbol()).join('');
     }
 }
 
