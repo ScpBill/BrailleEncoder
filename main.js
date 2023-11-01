@@ -143,8 +143,8 @@ const ENCODER = {
         },  '⠟': function() { return this.onCapitalMode ? 'Q' : 'q'
         },  '⠗': function() { return this.onCapitalMode ? 'R' : 'r'
         },  '⠎': function() { return this.type == 'EBAE'
-                                ? (this.hasApostropheAtRight = false)                                ? '§' : this.onCapitalMode ? 'S' : 's'
-                                : (this.hasAccentMarkAtLeft  = false) ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
+                                ? this.next && (this.next.isApostropheUnderModeSymbol = false) ? '§' : this.onCapitalMode ? 'S' : 's'
+                                : this.onAccentMarkUnderMode    ? '$' : this.next?.char == '⠘' ? '§' : this.onCapitalMode ? 'S' : 's'
         },  '⠞': function() { return this.onCapitalMode ? 'T' : 't'
 
         // 1-2-4-5-6 => (u-w)
@@ -154,8 +154,8 @@ const ENCODER = {
         },  '⠽': function() { return this.onCapitalMode ? 'Y' : 'y'
         },  '⠵': function() { return this.onCapitalMode ? 'Z' : 'z'
         },  '⠯': function() { return this.type == 'EBAE'
-                                ? this.hasAccentMarkAtLeft ? '&' : 'and'
-                                :                                  'and'
+                                ? this.onAccentMarkUnderMode ? '&' : 'and'
+                                :                                    'and'
         },  '⠿': function() { return 'for'
         },  '⠷': function() { return 'of'
         },  '⠮': function() { return 'the'
@@ -168,13 +168,13 @@ const ENCODER = {
                                 : this.onSymbolMode ? '(' : 'gh'
         },  '⠩': function() { return 'sh' 
         },  '⠹': function() { return this.type == 'EBAE'
-                                ?                                                              'th'
-                                : this.onCapitalMode && this.last?.hasAccentMarkAtLeft ? '†' : 'th' 
+                                ?                                                                'th'
+                                : this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '†' : 'th' 
         },  '⠱': function() { return 'wh' 
         },  '⠫': function() { return 'ed' 
         },  '⠻': function() { return this.type == 'EBAE'
-                                ?                                                              'er'
-                                : this.onCapitalMode && this.last?.hasAccentMarkAtLeft ? '‡' : 'er' 
+                                ?                                                                'er'
+                                : this.onCapitalMode && this.last?.onAccentMarkUnderMode ? '‡' : 'er' 
         },  '⠳': function() { return 'ou' 
         },  '⠪': function() { return 'ow' 
         },  '⠺': function() { return this.onCapitalMode ? 'W' : 'w'
@@ -192,7 +192,7 @@ const ENCODER = {
         },  '⠖': function() { return 'ff'
         },  '⠶': function() { return this.type == 'EBAE'
                                 ? this.onCapitalMode ? '[' : this.next && (this.next.isApostropheUnderModeSymbol = false) ? ']' : this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
-                                :                                                                        this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
+                                :                                                                                                 this.hasSpaceAtLeft ? '(' : this.hasSpaceAtRight ? ')' : 'gg'
         },  '⠦': function() { return this.hasAccentMarkAtLeft ? '?' : this.hasApostropheAtLeft ? '\u2018' : this._ ? '\u201C' : undefined  // ‘ “
         },  '⠔': function() { return this.type == 'EBAE'
                                 ? this.last?.char == this.char ? '*' : this.char == this.next?.next ? '' : 'in'
@@ -509,7 +509,7 @@ const DECODER = {
 class Linked {
     _mod = {};
 
-    /* ========== Define properties: get symbol (Interface) ========== */
+    /* ========== Define properties: get [mode|under-mode] symbol (Interface) ========== */
 
     // Types of symbols
     get isSpaceSymbol() {}
@@ -535,58 +535,6 @@ class Linked {
     // Disabled mod symbols
     get isDisableTraditionalNumberModeSymbol() {}
     get isDisableAntoineNumberModeSymbol() {}
-
-    /* ========== Define properties: set symbol ========== */
-
-    // Mod symbols
-    set isTraditionalNumberModeSymbol(bool) {
-        if (this.isTraditionalNumberModeSymbol) this._mod.TRADITIONAL_NUMBER = bool;
-        return this.isTraditionalNumberModeSymbol;
-    }
-    set isAntoineNumberModeSymbol(bool) {
-        if (this.isAntoineNumberModeSymbol) this._mod.ANTOINE_NUMBER = bool;
-        return this.isAntoineNumberModeSymbol;
-    }
-    set isCapitalModeSymbol(bool) {
-        if (this.isCapitalModeSymbol) this._mod.CAPITAL = bool;
-        return this.isCapitalModeSymbol;
-    }
-    set isSuperscriptModeSymbol(bool) {
-        if (this.isSuperscriptModeSymbol) this._mod.SUPERSCRIPT = bool;
-        return this.isSuperscriptModeSymbol;
-    }
-    set isSubscriptModeSymbol(bool) {
-        if (this.isSubscriptModeSymbol) this._mod.SUBSCRIPT = bool;
-        return this.isSubscriptModeSymbol;
-    }
-    set isCurrencyModeSymbol(bool) {
-        if (this.isCurrencyModeSymbol) this._mod.CURRENCY = bool;
-        return this.isCurrencyModeSymbol;
-    }
-    set isSymbolModeSymbol(bool) {
-        if (this.isSymbolModeSymbol) this._mod.SYMBOL = bool;
-        return this.isSymbolModeSymbol;
-    }
-
-    // Under-mod symbols
-    set isApostropheUnderModeSymbol(bool) {
-        if (this.isApostropheUnderModeSymbol) this._mod.APOSTROPHE = bool;
-        return this.isApostropheUnderModeSymbol;
-    }
-    set isAccentMarkUnderModeSymbol(bool) {
-        if (this.isAccentMarkUnderModeSymbol) this._mod.ACCENT_MARK = bool;
-        return this.isAccentMarkUnderModeSymbol;
-    }
-
-    // Disabled mod symbols
-    set isDisableTraditionalNumberModeSymbol(bool) {
-        if (this.isDisableTraditionalNumberModeSymbol) if (!bool) delete this._mod.TRADITIONAL_NUMBER;
-        return this.isDisableTraditionalNumberModeSymbol;
-    }
-    set isDisableAntoineNumberModeSymbol(bool) {
-        if (this.isDisableAntoineNumberModeSymbol) if (!bool) delete this._mod.ANTOINE_NUMBER;
-        return this.isDisableAntoineNumberModeSymbol;
-    }
 
     /* ========== Define properties: get position for symbol ========== */
 
@@ -714,6 +662,17 @@ class Linked {
     }
     get betweenAccentMarks() {
         return this.hasAccentMarkAtLeft && this.hasAccentMarkAtRight;
+    }
+
+    /* ========== Define properties: set right under-mod symbols ========== */
+
+    set hasApostropheAtRight(bool) {
+        if (this.hasApostropheAtRight) this._mod.APOSTROPHE = bool;
+        return this.hasApostropheAtRight;
+    }
+    set hasAccentMarkAtRight(bool) {
+        if (this.hasAccentMarkAtRight) this._mod.ACCENT_MARK = bool;
+        return this.hasAccentMarkAtRight;
     }
 
     /* ========== Define properties: on mod ========== */
